@@ -112,7 +112,7 @@ export default {
     ...mapState({
       allConversation: state => state.conversation.allConversation,
       isSdkReady: state => state.global.isSdkReady,
-      isCalling: state => state.global.isCalling,
+      // isCalling: state => state.global.isCalling,
       initTRTCCalling: state => state.global.initTRTCCalling,
       currentPage: state => state.global.currentPage
     }),
@@ -199,14 +199,14 @@ export default {
     hideChatContainer () {
       this.isShowChatContainer = false
     },
-    updatePageInfo (flag) {
-      if (flag) {
-        wx.setNavigationBarTitle({title: ''})
-        wx.hideTabBar()
-      } else {
-        wx.setNavigationBarTitle({title: '消息'})
-        wx.showTabBar()
-      }
+    updatePageInfo () {
+      // if (flag) {
+      //   wx.setNavigationBarTitle({title: ''})
+      //   wx.hideTabBar()
+      // } else {
+      wx.setNavigationBarTitle({title: '消息'})
+      wx.showTabBar()
+      // }
     }
   },
   onLoad () {
@@ -219,7 +219,7 @@ export default {
       keepScreenOn: true
     })
     // 当接收端在不在index页时在onshow钩子中监听isCalling变化，控制tabBar
-    this.updatePageInfo(this.isCalling)
+    this.updatePageInfo()
   },
   watch: {
     isSdkReady (newVal) {
@@ -231,17 +231,17 @@ export default {
       if (newVal) {
         this.messageAtMeText(newVal)
       }
-    },
-    isCalling (newVal) {
-      // 当接收端在index页时通过监听isCalling变化，控制UI和tabBar
-      if (this.currentPage === '/pages/index/main') {
-        if (newVal) {
-          this.hideChatContainer()
-          this.$refs.callingDom.handleInvited()
-        }
-        this.updatePageInfo(newVal)
-      }
     }
+    // isCalling (newVal) {
+    //   // 当接收端在index页时通过监听isCalling变化，控制UI和tabBar
+    //   if (this.currentPage === '/pages/index/main') {
+    //     if (newVal) {
+    //       this.hideChatContainer()
+    //       this.$refs.callingDom.handleInvited()
+    //     }
+    //     this.updatePageInfo(newVal)
+    //   }
+    // }
   }
 }
 </script>

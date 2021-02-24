@@ -276,7 +276,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { emojiName, emojiMap, emojiUrl } from '../../utils/emojiMap'
-import { throttle, getUserProfile } from '../../utils/index'
+import { throttle } from '../../utils/index'
 import { decodeElement } from '../../utils/decodeElement'
 
 const audioContext = wx.createInnerAudioContext()
@@ -958,52 +958,52 @@ export default {
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
     },
-    call (type) {
-      const currentConversationType = this.$store.getters.currentConversationType
-      this.action = 'call'
-      this.userIDList = []
-      this.callType = type
-      if (currentConversationType === 'GROUP') {
-        this.action = 'groupCall'
-        wx.navigateTo({ url: '/pages/selected-members/main?fr=calling' })
-        // this.selectUserList() // 测试用
-        return
-      }
-      this.sendCalling(currentConversationType)
-    },
-    selectUserList () {
-      // this.userIDList = ['aallenguo', '26825']
-      this.sendCalling(this.$store.getters.currentConversationType)
-    },
-    groupCall () {
-      this.userIDList = [...this.selectedMember]
-      this.sendCalling(this.$store.getters.currentConversationType)
-      this.$store.commit('updateSelectedMember', [])
-    },
-    async sendCalling (conversationType) {
-      let isFromGroup = false
-      let userIDList = [this.myInfo.userID, this.$store.getters.toAccount]
-      if (conversationType === 'GROUP') {
-        isFromGroup = true
-        userIDList = [...this.userIDList]
-      }
-      const avatarList = await getUserProfile(userIDList)
-      // console.warn('avatarList--->', avatarList)
-      this.$store.commit('setCalling', true)
-      this.$store.commit('setCallData', {
-        isFromGroup: isFromGroup,
-        action: this.action,
-        sponsor: this.myInfo.userID,
-        to: this.$store.getters.toAccount,
-        userIDList: this.userIDList,
-        avatarList: avatarList,
-        inviteData: {
-          callType: this.callType
-        }
-      })
-      wx.switchTab({ url: '/pages/index/main' })
-      this.handleClose()
-    },
+    // call (type) {
+    //   const currentConversationType = this.$store.getters.currentConversationType
+    //   this.action = 'call'
+    //   this.userIDList = []
+    //   this.callType = type
+    //   if (currentConversationType === 'GROUP') {
+    //     this.action = 'groupCall'
+    //     wx.navigateTo({ url: '/pages/selected-members/main?fr=calling' })
+    //     // this.selectUserList() // 测试用
+    //     return
+    //   }
+    //   this.sendCalling(currentConversationType)
+    // },
+    // selectUserList () {
+    //   // this.userIDList = ['aallenguo', '26825']
+    //   this.sendCalling(this.$store.getters.currentConversationType)
+    // },
+    // groupCall () {
+    //   this.userIDList = [...this.selectedMember]
+    //   this.sendCalling(this.$store.getters.currentConversationType)
+    //   this.$store.commit('updateSelectedMember', [])
+    // },
+    // async sendCalling (conversationType) {
+    //   let isFromGroup = false
+    //   let userIDList = [this.myInfo.userID, this.$store.getters.toAccount]
+    //   if (conversationType === 'GROUP') {
+    //     isFromGroup = true
+    //     userIDList = [...this.userIDList]
+    //   }
+    //   const avatarList = await getUserProfile(userIDList)
+    //   // console.warn('avatarList--->', avatarList)
+    //   this.$store.commit('setCalling', true)
+    //   this.$store.commit('setCallData', {
+    //     isFromGroup: isFromGroup,
+    //     action: this.action,
+    //     sponsor: this.myInfo.userID,
+    //     to: this.$store.getters.toAccount,
+    //     userIDList: this.userIDList,
+    //     avatarList: avatarList,
+    //     inviteData: {
+    //       callType: this.callType
+    //     }
+    //   })
+    //   wx.switchTab({ url: '/pages/index/main' })
+    //   this.handleClose()
+    // },
     handleEmojiShow () {
       this.emojiShow = true
     },
@@ -1035,13 +1035,13 @@ export default {
   },
   watch: {
     selectedMember (newVal) {
-      if (newVal.length > 0 && this.action === 'groupCall') {
-        // 延时处理避免switchTab时在某些手机上报错：fail no page
-        setTimeout(() => {
-          this.groupCall()
-        }, 500)
-        return
-      }
+      // if (newVal.length > 0 && this.action === 'groupCall') {
+      //   // 延时处理避免switchTab时在某些手机上报错：fail no page
+      //   setTimeout(() => {
+      //     this.groupCall()
+      //   }, 500)
+      //   return
+      // }
       let atList = []
       if (this.listType === 'groupAt') {
         newVal.forEach((userId) => {

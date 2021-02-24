@@ -31,7 +31,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { getUserProfile } from '../../utils/index'
+// import { getUserProfile } from '../../utils/index'
 export default {
   data () {
     return {
@@ -67,49 +67,49 @@ export default {
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
     },
-    videoCall () {
-      const options = {
-        call_id: '',
-        version: 3,
-        room_id: this.getRandomInt(0, 42949),
-        action: 0,
-        duration: 0,
-        invited_list: []
-      }
-      let args = JSON.stringify(options)
-      const message = wx.$app.createCustomMessage({
-        to: this.userProfile.userID,
-        conversationType: 'C2C',
-        payload: {
-          data: args,
-          description: '',
-          extension: ''
-        }
-      })
-      this.$store.commit('sendMessage', message)
-      wx.$app.sendMessage(message)
-      // let url = `../call/main?args=${args}&&from=${message.from}&&to=${message.to}`
-      // wx.navigateTo({url})
-    },
-    async sendCalling () {
-      let userIDList = [this.myInfo.userID, this.$store.getters.toAccount]
-      const avatarList = await getUserProfile(userIDList)
-      // console.warn('avatarList--->', avatarList)
-      this.$store.commit('setCalling', true)
-      this.$store.commit('setCallData', {
-        isFromGroup: false,
-        action: 'call',
-        sponsor: this.myInfo.userID,
-        to: this.$store.getters.toAccount,
-        userIDList: userIDList,
-        avatarList: avatarList,
-        inviteData: {
-          callType: 2
-        }
-      })
-      wx.switchTab({ url: '/pages/index/main' })
-      // this.handleClose()
-    },
+    // videoCall () {
+    //   const options = {
+    //     call_id: '',
+    //     version: 3,
+    //     room_id: this.getRandomInt(0, 42949),
+    //     action: 0,
+    //     duration: 0,
+    //     invited_list: []
+    //   }
+    //   let args = JSON.stringify(options)
+    //   const message = wx.$app.createCustomMessage({
+    //     to: this.userProfile.userID,
+    //     conversationType: 'C2C',
+    //     payload: {
+    //       data: args,
+    //       description: '',
+    //       extension: ''
+    //     }
+    //   })
+    //   this.$store.commit('sendMessage', message)
+    //   wx.$app.sendMessage(message)
+    //   // let url = `../call/main?args=${args}&&from=${message.from}&&to=${message.to}`
+    //   // wx.navigateTo({url})
+    // },
+    // async sendCalling () {
+    //   let userIDList = [this.myInfo.userID, this.$store.getters.toAccount]
+    //   const avatarList = await getUserProfile(userIDList)
+    //   // console.warn('avatarList--->', avatarList)
+    //   this.$store.commit('setCalling', true)
+    //   this.$store.commit('setCallData', {
+    //     isFromGroup: false,
+    //     action: 'call',
+    //     sponsor: this.myInfo.userID,
+    //     to: this.$store.getters.toAccount,
+    //     userIDList: userIDList,
+    //     avatarList: avatarList,
+    //     inviteData: {
+    //       callType: 2
+    //     }
+    //   })
+    //   wx.switchTab({ url: '/pages/index/main' })
+    //   // this.handleClose()
+    // },
     sendMessage () {
       this.$store.dispatch('checkoutConversation', `C2C${this.userProfile.userID}`)
     },

@@ -26,13 +26,12 @@ Vue.prototype.$type = TYPES
 Vue.prototype.$store = store
 Vue.prototype.$bus = $bus
 
-wx.$sdkAppID = SDKAPPID
 registerEvents(tim)
 
 // 小程序目前对该方法没有对外暴露
 wx.onAppRoute((res) => {
   const { path, query } = res
-  if (!store.getters.isCalling && path !== 'pages/selected-members/main') {
+  if (path !== 'pages/selected-members/main') {
     const qr = queryString(query)
     const page = qr ? `/${path}?${qr}` : `/${path}`
     store.commit('setCurrentPage', page)
@@ -144,8 +143,8 @@ let sysInfo = wx.getSystemInfoSync()
 store.commit('setSystemInfo', sysInfo)
 
 // 初始化通话信息
-store.commit('setCalling', false)
-store.commit('setCallData', { action: '', data: {} })
+// store.commit('setCalling', false)
+// store.commit('setCallData', { action: '', data: {} })
 
 new Vue({
   TIMApp

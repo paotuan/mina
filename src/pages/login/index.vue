@@ -9,15 +9,18 @@
         </div>
       </div>
     </div>
-    <picker class="picker" :range="userIDList" :value="selectedIndex" @change="choose">
-      <div class="cell">
-        <div class="choose">用户</div>
-        <div>
-          {{userIDList[selectedIndex]}}
-          <i-icon type="enter" />
-        </div>
-      </div>
-    </picker>
+<!--    <picker class="picker" :range="userIDList" :value="selectedIndex" @change="choose">-->
+<!--      <div class="cell">-->
+<!--        <div class="choose">用户</div>-->
+<!--        <div>-->
+<!--          {{userIDList[selectedIndex]}}-->
+<!--          <i-icon type="enter" />-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </picker>-->
+    <input v-model="appid" placeholder="平台ID" />
+    <input v-model="secret" placeholder="secret" />
+    <input v-model="uin" placeholder="QQ号" />
     <button hover-class="clicked" :loading="loading" class="login-button" @click="handleLogin">登录</button>
   </div>
 </template>
@@ -28,9 +31,9 @@ import { genTestUserSig } from '../../../static/utils/GenerateTestUserSig'
 export default {
   data () {
     return {
-      password: '',
-      userIDList: new Array(30).fill().map((item, idx) => ('user' + idx)),
-      selectedIndex: 1,
+      appid: '',
+      secret: '',
+      uin: '',
       loading: false
     }
   },
@@ -45,25 +48,25 @@ export default {
   methods: {
     // 点击登录进行初始化
     handleLogin () {
-      const userID = this.userIDList[this.selectedIndex]
-      // case1: 要登录的用户是当前已登录的用户，则直接跳转即可
-      if (this.myInfo.userID && userID === this.myInfo.userID) {
-        wx.switchTab({ url: '../index/main' })
-        return
-      }
+      // const userID = this.userIDList[this.selectedIndex]
+      // // case1: 要登录的用户是当前已登录的用户，则直接跳转即可
+      // if (this.myInfo.userID && userID === this.myInfo.userID) {
+      //   wx.switchTab({ url: '../index/main' })
+      //   return
+      // }
 
       this.loading = true
       // case2: 当前已经登录了用户，但是和即将登录的用户不一致，则先登出当前登录的用户，再登录
-      if (this.myInfo.userID) {
-        this.$store.dispatch('resetStore')
-        wx.$app.logout()
-          .then(() => {
-            this.login(userID)
-          })
-        return
-      }
+      // if (this.myInfo.userID) {
+      //   this.$store.dispatch('resetStore')
+      //   wx.$app.logout()
+      //     .then(() => {
+      //       this.login(userID)
+      //     })
+      //   return
+      // }
       // case3: 正常登录流程
-      this.login(userID)
+      this.login(this.uin)
     },
     login (userID) {
       let userSig = genTestUserSig('410155683').userSig
@@ -71,7 +74,6 @@ export default {
         userID: '410155683',
         userSig: userSig
       }).then(() => {
-        this.$store.commit('setRtcConfig', {userID: userID, userSig: userSig, sdkAppID: wx.$sdkAppID})
         wx.switchTab({ url: '../index/main' })
       }).catch(() => {
         this.loading = false
