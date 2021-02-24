@@ -7,7 +7,6 @@
     "i-avatar": "../../../static/iview/avatar/index",
     "i-row": "../../../static/iview/row/index",
     "i-col": "../../../static/iview/col/index",
-    "i-modal": "../../../static/iview/modal/index",
-    "trtc-calling": "../../../static/component/TRTCCalling/TRTCCalling"
+    "i-modal": "../../../static/iview/modal/index"
   }
 }

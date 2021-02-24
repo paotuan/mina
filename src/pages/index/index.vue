@@ -97,7 +97,6 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import Calling from '../../components/calling'
 import { throttle } from '../../utils/index'
 
 export default {
@@ -125,17 +124,7 @@ export default {
     wx.stopPullDownRefresh()
   },
   created () {},
-  mounted () {
-    if (this.initTRTCCalling) {
-      wx.$TRTCCallingComponent = this.$mp.page.selectComponent('#TRTCCalling-component')
-      this.$bindTRTCCallingRoomEvent(wx.$TRTCCallingComponent)
-      wx.$TRTCCallingComponent.login()
-      this.$store.commit('setInitTRTCCalling', false)
-    }
-  },
-  components: {
-    Calling
-  },
+  mounted () {},
   methods: {
     messageAtMeText () {
       this.allConversation.forEach((conversation) => {

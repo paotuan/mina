@@ -1,7 +1,7 @@
 import { formatTime } from '../../utils/index'
 import { decodeElement } from '../../utils/decodeElement'
 // import TIM from 'tim-wx-sdk'
-import TIM from '../../../static/component/TRTCCalling/utils/tim-wx-sdk'
+import TIM from '../../../static/utils/tim-wx-sdk'
 
 const conversationModules = {
   state: {
