@@ -1,5 +1,6 @@
 const globalModules = {
   state: {
+    systemInfo: null,
     isSdkReady: false,
     isCalling: false,
     initTRTCCalling: true,
@@ -15,7 +16,8 @@ const globalModules = {
     isCalling: state => state.isCalling,
     rtcConfig: state => state.rtcConfig,
     currentPage: state => state.currentPage,
-    callData: state => state.callData
+    callData: state => state.callData,
+    isIphoneX: state => state.systemInfo ? state.systemInfo.model.startsWith('iPhone X') : false
   },
   mutations: {
     showToast (state, payload) {
@@ -45,6 +47,9 @@ const globalModules = {
     },
     setCurrentPage (state, payload) {
       state.currentPage = payload
+    },
+    setSystemInfo (state, payload) {
+      state.systemInfo = payload
     }
   },
   actions: {
