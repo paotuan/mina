@@ -56,15 +56,22 @@ export default {
       this.login(this.uin)
     },
     login (userID) {
-      let userSig = genTestUserSig(userID).userSig
-      wx.$app.login({
-        userID: userID,
-        userSig: userSig
-      }).then(() => {
-        wx.switchTab({ url: '../index/main' })
-      }).catch(() => {
-        this.loading = false
-      })
+      const numsdkappid = Number(this.appid)
+      // TODO 判断 uin 合法
+      if (this.secret && userID && numsdkappid > 0) {
+        let userSig = genTestUserSig(userID, numsdkappid, this.secret).userSig
+        wx.$app.login({
+          userID: userID,
+          userSig: userSig
+        }).then(() => {
+          wx.switchTab({ url: '../index/main' })
+        }).catch((e) => {
+          this.loading = false
+          this.$store.commit('showToast', { title: '登录失败：' + e.message })
+        })
+      } else {
+        this.$store.commit('showToast', { title: '登录失败：参数不合法' })
+      }
     }
   }
 }

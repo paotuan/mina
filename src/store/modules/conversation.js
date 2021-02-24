@@ -1,7 +1,5 @@
 import { formatTime } from '../../utils/index'
 import { decodeElement } from '../../utils/decodeElement'
-// import TIM from 'tim-wx-sdk'
-import TIM from '../../../static/utils/tim-wx-sdk'
 
 const conversationModules = {
   state: {
@@ -186,10 +184,10 @@ const conversationModules = {
           context.dispatch('getMessageList')
           let name = ''
           switch (conversation.type) {
-            case TIM.TYPES.CONV_C2C:
+            case wx.TIM.TYPES.CONV_C2C:
               name = conversation.userProfile.nick || conversation.userProfile.userID
               break
-            case TIM.TYPES.CONV_GROUP:
+            case wx.TIM.TYPES.CONV_GROUP:
               name = conversation.groupProfile.name || conversation.groupProfile.groupID
               break
             default:

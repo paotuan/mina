@@ -277,7 +277,6 @@
 import { mapState, mapGetters } from 'vuex'
 import { emojiName, emojiMap, emojiUrl } from '../../utils/emojiMap'
 import { throttle } from '../../utils/index'
-import { decodeElement } from '../../utils/decodeElement'
 
 const audioContext = wx.createInnerAudioContext()
 const recorderManager = wx.getRecorderManager()
@@ -445,24 +444,24 @@ export default {
             let data = list[i].payload.data
             list[i].payload.data = data.indexOf('@2x') > 0 ? data : `${data}@2x`
           }
-          // 1v1通话消息解析
-          if (state.conversation.currentConversationID.indexOf('C2C') === 0 && list[i].type === 'TIMCustomElem' && list[i].payload.data.indexOf('businessID') > -1) {
-            list[i].virtualDom = [{
-              name: '1v1call',
-              text: wx.$TRTCCallingComponent.extractCallingInfoFromMessage(list[i])
-            }]
-          }
-          // 群组通话消息解析
-          if (state.conversation.currentConversationID.indexOf('GROUP') === 0 && list[i].type === 'TIMCustomElem' && list[i].payload.data.indexOf('businessID') > -1) {
-            // list[i].payload._data = JSON.parse(JSON.stringify(list[i].payload.data)) // 保存data副本便于排查问题
-            const _data = JSON.parse(list[i].payload.data)
-            list[i].payload.data = wx.$TRTCCallingComponent.extractCallingInfoFromMessage(list[i])
-            list[i].payload.userIDList = [..._data.inviteeList] // 用于兼容群提示消息解析
-            list[i].payload.operationType = 256 // 接入侧自定义次code,与消息解析中对齐即可
-            list[i].type = 'TIMGroupTipElem' // 将自定义消息类型重置为群提示消息做渲染
-            list[i].virtualDom = decodeElement(list[i])
-            // console.warn(list[i])
-          }
+          // // 1v1通话消息解析
+          // if (state.conversation.currentConversationID.indexOf('C2C') === 0 && list[i].type === 'TIMCustomElem' && list[i].payload.data.indexOf('businessID') > -1) {
+          //   list[i].virtualDom = [{
+          //     name: '1v1call',
+          //     text: wx.$TRTCCallingComponent.extractCallingInfoFromMessage(list[i])
+          //   }]
+          // }
+          // // 群组通话消息解析
+          // if (state.conversation.currentConversationID.indexOf('GROUP') === 0 && list[i].type === 'TIMCustomElem' && list[i].payload.data.indexOf('businessID') > -1) {
+          //   // list[i].payload._data = JSON.parse(JSON.stringify(list[i].payload.data)) // 保存data副本便于排查问题
+          //   const _data = JSON.parse(list[i].payload.data)
+          //   list[i].payload.data = wx.$TRTCCallingComponent.extractCallingInfoFromMessage(list[i])
+          //   list[i].payload.userIDList = [..._data.inviteeList] // 用于兼容群提示消息解析
+          //   list[i].payload.operationType = 256 // 接入侧自定义次code,与消息解析中对齐即可
+          //   list[i].type = 'TIMGroupTipElem' // 将自定义消息类型重置为群提示消息做渲染
+          //   list[i].virtualDom = decodeElement(list[i])
+          //   // console.warn(list[i])
+          // }
         }
         return list
       },
