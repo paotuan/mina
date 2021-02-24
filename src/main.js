@@ -63,6 +63,9 @@ function onReadyStateUpdate ({ name }) {
     wx.$app.getBlacklist().then(res => {
       store.commit('setBlacklist', res.data)
     })
+    wx.$app.getGroupList().then(res => {
+      store.commit('updateGroupList', res.data.groupList)
+    })
   }
   store.commit('setSdkReady', isSDKReady)
 }
