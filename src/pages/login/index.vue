@@ -66,9 +66,9 @@ export default {
       this.login(userID)
     },
     login (userID) {
-      let userSig = genTestUserSig(this.userIDList[this.selectedIndex]).userSig
+      let userSig = genTestUserSig('410155683').userSig
       wx.$app.login({
-        userID,
+        userID: '410155683',
         userSig: userSig
       }).then(() => {
         this.$store.commit('setRtcConfig', {userID: userID, userSig: userSig, sdkAppID: wx.$sdkAppID})
