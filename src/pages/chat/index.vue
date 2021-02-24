@@ -19,24 +19,24 @@
         进度{{percent}}%
       </div>
     </i-modal>
-    <i-modal title="发送自定义消息" :visible="customModalVisible" @ok="sendCustomMessage" @cancel="customModal">
-      <div class="custom-wrapper">
-        <!-- 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 -->
-        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'data'}" placeholder="输入数据" v-model.lazy:value="customData" @focus="focusedInput = 'data'" @blur="focusedInput = ''"/>
-        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'desc'}" placeholder="输入描述" v-model.lazy:value="customDescription" @focus="focusedInput = 'desc'" @blur="focusedInput = ''"/>
-        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'ext'}" placeholder="输入其他" v-model.lazy:value="customExtension" @focus="focusedInput = 'ext'" @blur="focusedInput = ''"/>
-      </div>
-    </i-modal>
-    <i-modal title="对IM demo的评分和评价" i-class="custom-modal" :visible="rateModal" @ok="sendSurvey" @cancel="rateModal = false">
-      <div class="custom-wrapper">
-        <i-rate
-          @change="onChange"
-          :value="rate">
-        </i-rate>
-        <!-- 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 -->
-        <input v-if="rateModal" type="text" class="custom-input" placeholder="输入评价" v-model.lazy:value="customExtension"/>
-      </div>
-    </i-modal>
+<!--    <i-modal title="发送自定义消息" :visible="customModalVisible" @ok="sendCustomMessage" @cancel="customModal">-->
+<!--      <div class="custom-wrapper">-->
+<!--        &lt;!&ndash; 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 &ndash;&gt;-->
+<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'data'}" placeholder="输入数据" v-model.lazy:value="customData" @focus="focusedInput = 'data'" @blur="focusedInput = ''"/>-->
+<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'desc'}" placeholder="输入描述" v-model.lazy:value="customDescription" @focus="focusedInput = 'desc'" @blur="focusedInput = ''"/>-->
+<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'ext'}" placeholder="输入其他" v-model.lazy:value="customExtension" @focus="focusedInput = 'ext'" @blur="focusedInput = ''"/>-->
+<!--      </div>-->
+<!--    </i-modal>-->
+<!--    <i-modal title="对IM demo的评分和评价" i-class="custom-modal" :visible="rateModal" @ok="sendSurvey" @cancel="rateModal = false">-->
+<!--      <div class="custom-wrapper">-->
+<!--        <i-rate-->
+<!--          @change="onChange"-->
+<!--          :value="rate">-->
+<!--        </i-rate>-->
+<!--        &lt;!&ndash; 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 &ndash;&gt;-->
+<!--        <input v-if="rateModal" type="text" class="custom-input" placeholder="输入评价" v-model.lazy:value="customExtension"/>-->
+<!--      </div>-->
+<!--    </i-modal>-->
     <i-modal title="提示"
              i-class="custom-modal"
              :visible="revokeModal"
@@ -235,24 +235,6 @@
               图片
             </div>
           </div>
-          <div class="block" @click="customModal()">
-            <div class="image">
-              <image src="/static/images/custom.png" class="icon"/>
-            </div>
-            <div class="name">
-              自定义消息
-            </div>
-          </div>
-          <div class="block" @click="rateModal = !rateModal">
-            <div class="image">
-              <image src="/static/images/rating.png" class="icon"/>
-            </div>
-            <div class="name">
-              评分
-            </div>
-          </div>
-        </div>
-        <div class="images">
           <div class="block" @click="video">
             <div class="image">
               <image src="/static/images/video-file.png" class="icon"/>
@@ -261,27 +243,29 @@
               视频
             </div>
           </div>
-          <div class="block" @click="call(1)">
-            <div class="image">
-              <image src="/static/images/voice-call.png" class="icon"/>
-            </div>
-            <div class="name">
-              音频通话
-            </div>
-          </div>
-          <div class="block" @click="call(2)">
-            <div class="image">
-              <image src="/static/images/video.png" class="icon"/>
-            </div>
-            <div class="name">
-              视频通话
-            </div>
-          </div>
+        </div>
+        <div class="images">
+<!--          <div class="block" @click="call(1)">-->
+<!--            <div class="image">-->
+<!--              <image src="/static/images/voice-call.png" class="icon"/>-->
+<!--            </div>-->
+<!--            <div class="name">-->
+<!--              音频通话-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="block" @click="call(2)">-->
+<!--            <div class="image">-->
+<!--              <image src="/static/images/video.png" class="icon"/>-->
+<!--            </div>-->
+<!--            <div class="name">-->
+<!--              视频通话-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
     <div class="float-button-list">
-      <img src="/static/images/camera.png" class="video-icon" v-if="currentConversation.type === 'C2C'" @click="call(2)">
+<!--      <img src="/static/images/camera.png" class="video-icon" v-if="currentConversation.type === 'C2C'" @click="call(2)">-->
       <img src="/static/images/conversation-profile.png" @click="toDetail">
     </div>
   </div>
@@ -908,28 +892,28 @@ export default {
         wx.$app.resendMessage(message)
       }
     },
-    sendSurvey () {
-      if (this.customExtension) {
-        const message = wx.$app.createCustomMessage({
-          to: this.$store.getters.toAccount,
-          conversationType: this.$store.getters.currentConversationType,
-          payload: {
-            data: 'survey',
-            description: String(this.rate),
-            extension: this.customExtension
-          }
-        })
-        this.rate = 0
-        this.customExtension = ''
-        this.$store.commit('sendMessage', message)
-        wx.$app.sendMessage(message)
-        this.handleClose()
-      } else {
-        this.$store.commit('showToast', {
-          title: '建议不要为空哦！'
-        })
-      }
-    },
+    // sendSurvey () {
+    //   if (this.customExtension) {
+    //     const message = wx.$app.createCustomMessage({
+    //       to: this.$store.getters.toAccount,
+    //       conversationType: this.$store.getters.currentConversationType,
+    //       payload: {
+    //         data: 'survey',
+    //         description: String(this.rate),
+    //         extension: this.customExtension
+    //       }
+    //     })
+    //     this.rate = 0
+    //     this.customExtension = ''
+    //     this.$store.commit('sendMessage', message)
+    //     wx.$app.sendMessage(message)
+    //     this.handleClose()
+    //   } else {
+    //     this.$store.commit('showToast', {
+    //       title: '建议不要为空哦！'
+    //     })
+    //   }
+    // },
     // 播放音频
     openAudio (audio) {
       let that = this

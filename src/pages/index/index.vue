@@ -1,11 +1,11 @@
 <template>
 <div>
   <div v-show="isShowChatContainer " class="chat-container">
-    <div v-if="allConversation.length === 0" class="empty">
-      <button type="button" class="empty-button" @click="empty">
-        发起一段对话吧
-      </button>
-    </div>
+<!--    <div v-if="allConversation.length === 0" class="empty">-->
+<!--      <button type="button" class="empty-button" @click="empty">-->
+<!--        发起一段对话吧-->
+<!--      </button>-->
+<!--    </div>-->
     <i-modal title="确认删除会话？" :visible="modalVisible" @ok="handleConfirm()" @cancel="handleModalShow">
     </i-modal>
     <template v-for="item in allConversation">

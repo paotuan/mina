@@ -20,10 +20,10 @@
       </i-cell>
     </i-cell-group>
     <div class="action-list"  :style="{'margin-bottom': isIphoneX ? '34px' : 0}">
-      <button class="video-call" @click="sendCalling">
-        音视频通话
-        <div class="new-badge">NEW</div>
-      </button>
+<!--      <button class="video-call" @click="sendCalling">-->
+<!--        音视频通话-->
+<!--        <div class="new-badge">NEW</div>-->
+<!--      </button>-->
       <button class="send-messsage" @click="sendMessage">发送消息</button>
     </div>
   </div>
