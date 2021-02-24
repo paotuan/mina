@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "",
-  "navigationBarBackgroundColor": "#006fff",
+  "navigationBarBackgroundColor": "#303841",
   "disableScroll": true,
   "usingComponents": {
     "i-input": "../../../static/iview/input/index",

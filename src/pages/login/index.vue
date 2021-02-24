@@ -1,26 +1,13 @@
 <template>
   <div class="counter-warp">
-    <div class="header">
-      <div class="header-content">
-        <img src="../../../static/images/im.png" class="icon">
-        <div class="text">
-          <div class="text-header">登录 · 即时通信</div>
-          <div class="text-content">体验群组聊天，视频对话等IM功能</div>
-        </div>
-      </div>
+    <div>
+      <img src="../../../static/images/logo-small.png" class="icon">
     </div>
-<!--    <picker class="picker" :range="userIDList" :value="selectedIndex" @change="choose">-->
-<!--      <div class="cell">-->
-<!--        <div class="choose">用户</div>-->
-<!--        <div>-->
-<!--          {{userIDList[selectedIndex]}}-->
-<!--          <i-icon type="enter" />-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </picker>-->
-    <input v-model="appid" placeholder="平台ID" />
-    <input v-model="secret" placeholder="secret" />
-    <input v-model="uin" placeholder="QQ号" />
+    <div class="input-wrapper">
+      <input class="input" v-model="appid" placeholder="平台ID" />
+      <input type="password" class="input" v-model="secret" placeholder="secret" />
+      <input class="input" v-model="uin" placeholder="QQ" />
+    </div>
     <button hover-class="clicked" :loading="loading" class="login-button" @click="handleLogin">登录</button>
   </div>
 </template>
@@ -31,9 +18,9 @@ import { genTestUserSig } from '../../../static/utils/GenerateTestUserSig'
 export default {
   data () {
     return {
-      appid: '',
-      secret: '',
-      uin: '',
+      appid: '1400294749',
+      secret: '29e433950484389c3050ede42055dce934c0a335a87494495008794d740b8e48',
+      uin: '410155683',
       loading: false
     }
   },
@@ -69,18 +56,15 @@ export default {
       this.login(this.uin)
     },
     login (userID) {
-      let userSig = genTestUserSig('410155683').userSig
+      let userSig = genTestUserSig(userID).userSig
       wx.$app.login({
-        userID: '410155683',
+        userID: userID,
         userSig: userSig
       }).then(() => {
         wx.switchTab({ url: '../index/main' })
       }).catch(() => {
         this.loading = false
       })
-    },
-    choose (event) {
-      this.selectedIndex = Number(event.mp.detail.value)
     }
   }
 }
@@ -88,56 +72,34 @@ export default {
 
 <style lang="stylus" scoped>
 .counter-warp
-  height 100%
-  background $white
+  height 100vh
+  background rgb(48, 56, 65)
   text-align center
-  .header
-    padding 30px 40px
-    background-color $primary
-    color white
-    .header-content
-      display flex
-      align-items center
-      .icon
-        width 76px
-        height 50px
-      .text
-        text-align left
-        padding-left 8px
-        .text-header
-          font-size 28px
-        .text-content
-          font-size 12px
-  .picker
-    width 80vw
-    margin 80px auto 60px
-    .cell
-      display flex
-      justify-content  space-between
-      align-items center
-      border-bottom  1px solid $border-base
-      padding-bottom 12px
-      .choose
-        font-weight 600
-        font-size 16px
-
+  .icon
+    width 100vw
+    height 37.3vw
+.input-wrapper
+  width 80vw
+  margin 60px auto 60px
 .input
-  text-align center
+  text-align left
   height 32px
+  padding 0 12px
   background-color white
   border-radius 8px
   font-size 16px
-  border 1px solid $border-base
-  margin-bottom 8px
+  border-bottom 1px solid $border-base
+  margin-bottom 16px
 .login-button
   width 80vw
-  background-color $primary
-  color white
+  background-color rgb(244, 244, 245)
+  color rgb(144, 147, 153)
   font-size 16px
   &::before
     width 20px
     height 20px
     margin 0 6px 2px 0
 .clicked
-  background-color $dark-primary
+  background-color rgb(130, 132, 138)
+  color white
 </style>
