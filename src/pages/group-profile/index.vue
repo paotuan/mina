@@ -19,12 +19,12 @@
           查看全部
         </div>
       </div>
-      <div class="add-member-btn" v-if="addMemberButtonVisible" @click="addMemberModalVisible = true">
-        <icon :size="40" src="/static/images/add-group-member.png"/>
-        <div class="name">
-          添加
-        </div>
-      </div>
+<!--      <div class="add-member-btn" v-if="addMemberButtonVisible" @click="addMemberModalVisible = true">-->
+<!--        <icon :size="40" src="/static/images/add-group-member.png"/>-->
+<!--        <div class="name">-->
+<!--          添加-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
     <!-- 群组相关资料 -->
     <i-cell-group>
@@ -39,7 +39,7 @@
     <!-- 群组相关操作 -->
     <i-cell-group v-if="isAdminOrOwner" i-class="group-action">
       <i-cell title="全体禁言">
-        <switch slot="footer" color="#006fff" @change="handleMuteSwitch"  @click ="handleClick"/>
+        <switch slot="footer" color="#006fff" @change="handleMuteSwitch"/>
       </i-cell>
     </i-cell-group>
     <i-cell-group i-class="group-action">
@@ -47,9 +47,9 @@
     </i-cell-group>
 
     <!-- 添加群成员 Modal 窗 -->
-    <i-modal :i-class="inputFocus ? 'add-member-modal-on-focus add-member-modal' : 'add-member-modal'" title="添加群成员" :visible="addMemberModalVisible" @ok="handleOk" @cancel="addMemberModalVisible = false">
-      <input v-show="addMemberModalVisible" class="user-id-input" :focus="addMemberModalVisible" v-model="userID" placeholder="请输入 userID" @focus="inputFocus = true" @blur="inputFocus = false"/>
-    </i-modal>
+<!--    <i-modal :i-class="inputFocus ? 'add-member-modal-on-focus add-member-modal' : 'add-member-modal'" title="添加群成员" :visible="addMemberModalVisible" @ok="handleOk" @cancel="addMemberModalVisible = false">-->
+<!--      <input v-show="addMemberModalVisible" class="user-id-input" :focus="addMemberModalVisible" v-model="userID" placeholder="请输入 userID" @focus="inputFocus = true" @blur="inputFocus = false"/>-->
+<!--    </i-modal>-->
   </div>
 </template>
 
@@ -80,12 +80,12 @@ export default {
       memberList: state => state.group.currentGroupMemberList.slice(0, 12)
     }),
     // 好友工作群才能添加群成员
-    addMemberButtonVisible () {
-      if (this.groupProfile) {
-        return this.groupProfile.type === wx.TIM.TYPES.GRP_WORK
-      }
-      return false
-    },
+    // addMemberButtonVisible () {
+    //   if (this.groupProfile) {
+    //     return this.groupProfile.type === wx.TIM.TYPES.GRP_WORK
+    //   }
+    //   return false
+    // },
     quitText () {
       if (this.groupProfile &&
         this.groupProfile.type !== wx.TIM.TYPES.GRP_WORK &&
@@ -155,11 +155,6 @@ export default {
         }
       })
     },
-    handleClick () {
-      if (!this.isAdminOrOwner) {
-        wx.showToast({ title: '普通群成员不能设置全体禁言', duration: 1500, icon: 'none' })
-      }
-    },
     handleMuteSwitch (event) {
       if (this.isAdminOrOwner) {
         let muteAllMembers = event.mp.detail.value
@@ -187,36 +182,36 @@ export default {
           })
       }
     },
-    handleOk () {
-      if (this.userID === '') {
-        wx.showToast({ title: '请输入userID', icon: 'none', duration: 800 })
-      }
-      wx.$app.addGroupMember({
-        groupID: this.groupProfile.groupID,
-        userIDList: [this.userID]
-      }).then((res) => {
-        if (res.data.successUserIDList.length > 0) {
-          wx.showToast({ title: '添加成功', duration: 800 })
-          this.userID = ''
-          this.addMemberModalVisible = false
-        }
-        if (res.data.existedUserIDList.length > 0) {
-          wx.showToast({ title: '该用户已在群中', duration: 800, icon: 'none' })
-        }
-        if (res.data.failureUserIDList.length > 0) {
-          wx.showToast({ title: '添加失败，请确保该用户存在', duration: 800, icon: 'none' })
-        }
-      }).catch((error) => {
-        wx.showToast({ title: error.message, duration: 800, icon: 'none' })
-      })
-    }
+    // handleOk () {
+    //   if (this.userID === '') {
+    //     wx.showToast({ title: '请输入userID', icon: 'none', duration: 800 })
+    //   }
+    //   wx.$app.addGroupMember({
+    //     groupID: this.groupProfile.groupID,
+    //     userIDList: [this.userID]
+    //   }).then((res) => {
+    //     if (res.data.successUserIDList.length > 0) {
+    //       wx.showToast({ title: '添加成功', duration: 800 })
+    //       this.userID = ''
+    //       this.addMemberModalVisible = false
+    //     }
+    //     if (res.data.existedUserIDList.length > 0) {
+    //       wx.showToast({ title: '该用户已在群中', duration: 800, icon: 'none' })
+    //     }
+    //     if (res.data.failureUserIDList.length > 0) {
+    //       wx.showToast({ title: '添加失败，请确保该用户存在', duration: 800, icon: 'none' })
+    //     }
+    //   }).catch((error) => {
+    //     wx.showToast({ title: error.message, duration: 800, icon: 'none' })
+    //   })
+    // }
   }
 }
 </script>
 
 <style lang="stylus">
-.add-member-modal-on-focus
-  transform translateY(-70px)
+//.add-member-modal-on-focus
+//  transform translateY(-70px)
 .group-detail-wrapper
   height 100vh
   background-color $background
@@ -250,11 +245,11 @@ export default {
   margin-top 8px
 .quit
   color $danger
-.user-id-input
-  margin 12px auto
-  width 80%
-  padding 0 12px
-  border-bottom 1px solid $light-background
+//.user-id-input
+//  margin 12px auto
+//  width 80%
+//  padding 0 12px
+//  border-bottom 1px solid $light-background
 .cell-value
   color $dark-background !important
 </style>
