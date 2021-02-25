@@ -11,7 +11,6 @@
     "pages/system/main",
     "pages/user-profile/main",
     "pages/group-profile/main",
-    "pages/groups/main",
     "pages/blacklist/main",
     "pages/profile/main",
     "pages/update-profile/main",
