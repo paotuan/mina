@@ -3,22 +3,22 @@
     <div class="header">
       <template v-for="member in memberList">
         <div class="member" :key="member.userID" @click="toUserProfile(member)">
-          <i-avatar
-            i-class="avatar"
-            :src="member.avatar || '/static/images/avatar.png'"
-            defaultAvatar="'/static/images/avatar.png'"
-            shape="square" />
-          <div class="name">
-            {{member.nameCard || member.nick || member.userID}}
+          <div class="member-info">
+            <i-avatar
+              i-class="avatar"
+              :src="member.avatar || '/static/images/avatar.png'"
+              defaultAvatar="'/static/images/avatar.png'"
+              shape="square" />
+            <div style="margin-left: 15px">
+              <div class="name">{{member.nameCard || member.nick || member.userID}}</div>
+              <div class="uin">{{ member.userID }}</div>
+            </div>
+          </div>
+          <div class="information">
+            <div class="delete" v-if="(isAdminOrOwner && member.role !== 'Owner')" @click.stop="kick(member)">删除</div>
           </div>
         </div>
       </template>
-      <div class="show-more-btn" @click="toAllMemberList">
-        <icon :size="40" src="/static/images/show-more.png"/>
-        <div class="name">
-          查看全部
-        </div>
-      </div>
 <!--      <div class="add-member-btn" v-if="addMemberButtonVisible" @click="addMemberModalVisible = true">-->
 <!--        <icon :size="40" src="/static/images/add-group-member.png"/>-->
 <!--        <div class="name">-->
@@ -118,8 +118,13 @@ export default {
     }
   },
   methods: {
-    toAllMemberList () {
-      wx.navigateTo({ url: '../members/main' })
+    // 踢出群聊
+    kick (item) {
+      wx.$app.deleteGroupMember({
+        groupID: this.groupProfile.groupID,
+        reason: '踢出群',
+        userIDList: [item.userID]
+      })
     },
     toUserProfile (member) {
       wx.navigateTo({ url: `../user-profile/main?userID=${member.userID}` })
@@ -181,7 +186,7 @@ export default {
             wx.showToast({ title: error.message, duration: 800, icon: 'none' })
           })
       }
-    },
+    }
     // handleOk () {
     //   if (this.userID === '') {
     //     wx.showToast({ title: '请输入userID', icon: 'none', duration: 800 })
@@ -216,25 +221,22 @@ export default {
   height 100vh
   background-color $background
   .header
-    display flex
-    flex-wrap wrap
     background-color $white
     padding-bottom 18px
     margin-bottom 8px
-    .member, .show-more-btn, .add-member-btn
+    .member
       display flex
       justify-content space-between
       align-items center
-      flex-direction column
-      width 20%
       padding-top 16px
+      margin 0 15px
+      .member-info
+        display flex
       .name
-        width 40px
+        font-size 16px
+      .uin
         font-size 12px
-        overflow hidden
-        white-space nowrap
-        text-overflow ellipsis
-        text-align center
+        color $dark-background
       .avatar
         width 40px
         height 40px
@@ -252,4 +254,7 @@ export default {
 //  border-bottom 1px solid $light-background
 .cell-value
   color $dark-background !important
+.delete
+  color $danger
+  font-size 14px
 </style>

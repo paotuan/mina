@@ -7,7 +7,6 @@
     "pages/chat/main",
     "pages/search/main",
     "pages/create/main",
-    "pages/members/main",
     "pages/system/main",
     "pages/user-profile/main",
     "pages/group-profile/main",
