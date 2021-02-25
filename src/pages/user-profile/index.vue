@@ -4,16 +4,16 @@
       <i-avatar i-class="avatar" :src="userProfile.avatar" />
       <div class="basic">
         <div class="username">{{userProfile.nick || '未设置'}}</div>
-        <div class="user-id">用户ID：{{userProfile.userID}}</div>
+        <div class="user-id">{{userProfile.userID}}</div>
       </div>
     </div>
-    <i-cell-group i-class="cell-group">
-      <i-cell title="个性签名">
-        <div slot="footer" class="signature">
-          {{userProfile.selfSignature || '暂无'}}
-        </div>
-      </i-cell>
-    </i-cell-group>
+<!--    <i-cell-group i-class="cell-group">-->
+<!--      <i-cell title="个性签名">-->
+<!--        <div slot="footer" class="signature">-->
+<!--          {{userProfile.selfSignature || '暂无'}}-->
+<!--        </div>-->
+<!--      </i-cell>-->
+<!--    </i-cell-group>-->
     <i-cell-group i-class="cell-group">
       <i-cell title="加入黑名单">
         <switch slot="footer" color="#006fff" :checked="isInBlacklist" @change="handleSwitch"/>

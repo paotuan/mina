@@ -1,11 +1,11 @@
 <template>
   <div class="update-profile-wrapper">
-    <input 
+    <input
       class="input"
       :class="focus ? 'input-focus' : ''"
-      type="text" 
+      type="text"
       v-model="value"
-      :placeholder="placeholder" 
+      :placeholder="placeholder"
       :focus="focus"
       @blur="focus = false"
       @focus="focus = true"
@@ -40,11 +40,11 @@ export default {
             return false
           }
           break
-        case 'signature':
-          if (this.value !== this.myInfo.selfSignature) {
-            return false
-          }
-          break
+        // case 'signature':
+        //   if (this.value !== this.myInfo.selfSignature) {
+        //     return false
+        //   }
+        //   break
         case 'nameCard':
           if (this.groupProfile && this.groupProfile.selfInfo && this.value !== this.groupProfile.selfInfo.nameCard) {
             return false
@@ -67,8 +67,8 @@ export default {
       switch (this.key) {
         case 'nick':
           return '请输入昵称'
-        case 'signature':
-          return '请输入个性签名'
+        // case 'signature':
+        //   return '请输入个性签名'
         case 'nameCard':
           return '请输入群名片'
       }
@@ -86,10 +86,10 @@ export default {
         title = '修改昵称'
         this.value = this.myInfo.nick
         break
-      case 'signature':
-        title = '修改个性签名'
-        this.value = this.myInfo.selfSignature
-        break
+      // case 'signature':
+      //   title = '修改个性签名'
+      //   this.value = this.myInfo.selfSignature
+      //   break
       case 'nameCard':
         title = '修改群名片'
         this.value = this.groupProfile.selfInfo.nameCard
@@ -120,11 +120,11 @@ export default {
             .then(this.handleResolve)
             .catch(this.handleReject)
           break
-        case 'signature':
-          wx.$app.updateMyProfile({ selfSignature: this.value })
-            .then(this.handleResolve)
-            .catch(this.handleReject)
-          break
+        // case 'signature':
+        //   wx.$app.updateMyProfile({ selfSignature: this.value })
+        //     .then(this.handleResolve)
+        //     .catch(this.handleReject)
+        //   break
       }
     },
     updateGroupProfile () {
@@ -177,7 +177,7 @@ export default {
   .input
     padding 12px
     border-bottom 1px solid $dark-background
-  button 
+  button
     margin-top 24px
     color $white
     background-color $primary

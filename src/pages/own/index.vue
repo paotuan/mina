@@ -4,16 +4,16 @@
       <image class="avatar" :src="myInfo.avatar || '/static/images/avatar.png'" />
       <div class="basic">
         <div class="username">{{myInfo.nick || '未设置'}}</div>
-        <div class="user-id">用户ID：{{myInfo.userID}}</div>
+        <div class="user-id">{{myInfo.userID}}</div>
       </div>
     </div>
-    <i-cell-group i-class="cell-group">
-      <i-cell title="个性签名">
-        <div slot="footer" class="signature">
-          {{myInfo.selfSignature || '暂无'}}
-        </div>
-      </i-cell>
-    </i-cell-group>
+<!--    <i-cell-group i-class="cell-group">-->
+<!--      <i-cell title="个性签名">-->
+<!--        <div slot="footer" class="signature">-->
+<!--          {{myInfo.selfSignature || '暂无'}}-->
+<!--        </div>-->
+<!--      </i-cell>-->
+<!--    </i-cell-group>-->
     <i-cell-group i-class="cell-group">
       <i-cell title="修改资料" is-link url="../profile/main"></i-cell>
       <i-cell title="退出登录" i-class="logout" @click="logout"></i-cell>
