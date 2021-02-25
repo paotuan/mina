@@ -28,7 +28,7 @@
     </div>
     <!-- 群组相关资料 -->
     <i-cell-group>
-      <i-cell title="群ID" value-class="cell-value" :value="groupProfile.groupID"/>
+<!--      <i-cell title="群ID" value-class="cell-value" :value="groupProfile.groupID"/>-->
       <i-cell title="群名称" value-class="cell-value" :is-link="canIEditGroupProfile" :value="groupProfile.name"
         :url="'../update-profile/main?type=group&key=name&groupID=' + groupProfile.groupID"/>
       <i-cell title="群公告" value-class="cell-value" :is-link="canIEditGroupProfile" :value="groupProfile.notification"
@@ -37,9 +37,9 @@
         :url="'../update-profile/main?type=group&key=nameCard&groupID=' + groupProfile.groupID"/>
     </i-cell-group>
     <!-- 群组相关操作 -->
-    <i-cell-group i-class="group-action">
+    <i-cell-group v-if="isAdminOrOwner" i-class="group-action">
       <i-cell title="全体禁言">
-        <switch slot="footer" color="#006fff" :disabled="!isAdminOrOwner" @change="handleMuteSwitch"  @click ="handleClick"/>
+        <switch slot="footer" color="#006fff" @change="handleMuteSwitch"  @click ="handleClick"/>
       </i-cell>
     </i-cell-group>
     <i-cell-group i-class="group-action">
