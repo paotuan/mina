@@ -3,7 +3,7 @@ const globalModules = {
     systemInfo: null,
     isSdkReady: false,
     // isCalling: false,
-    initTRTCCalling: true,
+    // initTRTCCalling: true,
     // rtcConfig: {},
     // callData: {
     //   action: '',

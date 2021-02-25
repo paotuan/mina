@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div v-show="isShowChatContainer " class="chat-container">
+  <div class="chat-container">
 <!--    <div v-if="allConversation.length === 0" class="empty">-->
 <!--      <button type="button" class="empty-button" @click="empty">-->
 <!--        发起一段对话吧-->
@@ -91,7 +91,6 @@
       </div>
     </template>
   </div>
-  <div v-show="!isShowChatContainer"><Calling ref="callingDom" /></div>
 </div>
 </template>
 
@@ -102,10 +101,8 @@ import { throttle } from '../../utils/index'
 export default {
   data () {
     return {
-      TRTCCallingComponent: null,
       modalVisible: false,
-      conversation: {},
-      isShowChatContainer: true
+      conversation: {}
     }
   },
   computed: {
@@ -113,7 +110,7 @@ export default {
       allConversation: state => state.conversation.allConversation,
       isSdkReady: state => state.global.isSdkReady,
       // isCalling: state => state.global.isCalling,
-      initTRTCCalling: state => state.global.initTRTCCalling,
+      // initTRTCCalling: state => state.global.initTRTCCalling,
       currentPage: state => state.global.currentPage
     }),
     ...mapGetters(['totalUnreadCount', 'myInfo'])
@@ -192,12 +189,6 @@ export default {
     empty () {
       let url = '../search/main'
       wx.navigateTo({url})
-    },
-    showChatContainer () {
-      this.isShowChatContainer = true
-    },
-    hideChatContainer () {
-      this.isShowChatContainer = false
     },
     updatePageInfo () {
       // if (flag) {
