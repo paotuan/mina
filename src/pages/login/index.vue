@@ -14,7 +14,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { genTestUserSig } from '../../../static/utils/GenerateTestUserSig'
+import { genTestUserSig } from '../../../static/utils/sdk'
+import { initTimInstance } from '../../../static/utils/tim'
+import { registerEvents } from '../../main'
 export default {
   data () {
     return {
@@ -57,8 +59,14 @@ export default {
     },
     login (userID) {
       const numsdkappid = Number(this.appid)
+
       // TODO 判断 uin 合法
       if (this.secret && userID && numsdkappid > 0) {
+        // 1. 根据提供的 appid 初始化 tim 实例
+        initTimInstance(numsdkappid, this.secret)
+        // 2. 初始化实例以后，设置监听器
+        registerEvents(wx.$app)
+        // 3. 正式发起登录
         let userSig = genTestUserSig(userID, numsdkappid, this.secret).userSig
         wx.$app.login({
           userID: userID,
@@ -70,6 +78,7 @@ export default {
           this.$store.commit('showToast', { title: '登录失败：' + e.message })
         })
       } else {
+        this.loading = false
         this.$store.commit('showToast', { title: '登录失败：参数不合法' })
       }
     }

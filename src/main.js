@@ -1,20 +1,12 @@
 import Vue from 'mpvue'
 import TIMApp from './App'
-// import TIM from 'tim-wx-sdk'
-import TIM from '../static/utils/tim-wx-sdk'
+import TIM from '../static/utils/sdk'
 import store from './store/index'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { queryString } from './utils'
-import COS from 'cos-wx-sdk-v5'
-import { SDKAPPID } from '../static/utils/GenerateTestUserSig'
 import TYPES from './utils/types'
-const tim = TIM.create({
-  SDKAppID: SDKAPPID
-})
-tim.setLogLevel(0)
-wx.$app = tim
-wx.$app.registerPlugin({'cos-wx-sdk': COS})
+
 wx.store = store
 wx.TIM = TIM
 wx.dayjs = dayjs
@@ -26,8 +18,6 @@ Vue.prototype.$type = TYPES
 Vue.prototype.$store = store
 Vue.prototype.$bus = $bus
 
-registerEvents(tim)
-
 // 小程序目前对该方法没有对外暴露
 wx.onAppRoute((res) => {
   const { path, query } = res
@@ -38,7 +28,7 @@ wx.onAppRoute((res) => {
   }
 })
 // 注册监听事件
-function registerEvents (tim) {
+export function registerEvents (tim) {
   tim.on(TIM.EVENT.SDK_READY, onReadyStateUpdate, this)
   tim.on(TIM.EVENT.SDK_NOT_READY, onReadyStateUpdate, this)
 
