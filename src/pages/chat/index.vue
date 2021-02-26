@@ -19,24 +19,6 @@
         进度{{percent}}%
       </div>
     </i-modal>
-<!--    <i-modal title="发送自定义消息" :visible="customModalVisible" @ok="sendCustomMessage" @cancel="customModal">-->
-<!--      <div class="custom-wrapper">-->
-<!--        &lt;!&ndash; 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 &ndash;&gt;-->
-<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'data'}" placeholder="输入数据" v-model.lazy:value="customData" @focus="focusedInput = 'data'" @blur="focusedInput = ''"/>-->
-<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'desc'}" placeholder="输入描述" v-model.lazy:value="customDescription" @focus="focusedInput = 'desc'" @blur="focusedInput = ''"/>-->
-<!--        <input v-if="customModalVisible" type="text" class="custom-input" :class="{'input-focus': focusedInput === 'ext'}" placeholder="输入其他" v-model.lazy:value="customExtension" @focus="focusedInput = 'ext'" @blur="focusedInput = ''"/>-->
-<!--      </div>-->
-<!--    </i-modal>-->
-<!--    <i-modal title="对IM demo的评分和评价" i-class="custom-modal" :visible="rateModal" @ok="sendSurvey" @cancel="rateModal = false">-->
-<!--      <div class="custom-wrapper">-->
-<!--        <i-rate-->
-<!--          @change="onChange"-->
-<!--          :value="rate">-->
-<!--        </i-rate>-->
-<!--        &lt;!&ndash; 为了修复iOS input框不跟随父容器显隐状态，分别设置渲染条件 &ndash;&gt;-->
-<!--        <input v-if="rateModal" type="text" class="custom-input" placeholder="输入评价" v-model.lazy:value="customExtension"/>-->
-<!--      </div>-->
-<!--    </i-modal>-->
     <i-modal title="提示"
              i-class="custom-modal"
              :visible="revokeModal"
@@ -111,28 +93,7 @@
                 </div>
               </div>
               <div class="message" v-else-if="message.type === 'TIMCustomElem'">
-                <div v-if="message.payload.data === 'survey'" class="survey">
-                  <div class="title">
-                    对IM DEMO的评分和建议
-                  </div>
-                  <div class="description">
-                    <i-rate
-                      disabled="true"
-                      :value="message.payload.description">
-                    </i-rate>
-                  </div>
-                  <div class="suggestion">
-                    <div>{{message.payload.extension}}</div>
-                  </div>
-                </div>
-                <div v-else-if="message.payload.data === 'group_create'">
-                  <div>{{message.payload.extension}}</div>
-                </div>
-                <div v-else-if="message.virtualDom[0].name === '1v1call'" class="custom-elem">
-                  <div>{{message.virtualDom[0].text}}</div>
-                </div>
-                <!-- <div v-else-if="message.payload.description === 'trtccall'" class="custom-elem">{{message.payload.data}}</div> -->
-                <div v-else class="custom-elem">自定义消息</div>
+                <div class="custom-elem">自定义消息</div>
               </div>
               <div class="message" v-else-if="message.type === 'TIMSoundElem'" :url="message.payload.url">
                 <div class="box" @click="openAudio(message.payload)">
