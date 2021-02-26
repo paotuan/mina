@@ -8,12 +8,14 @@
       <input type="password" class="input" v-model="secret" placeholder="secret" />
       <input class="input" v-model="uin" placeholder="QQ" />
     </div>
+    <button class="login-button" @click="scanCode">扫描二维码</button>
     <button hover-class="clicked" :loading="loading" class="login-button" @click="handleLogin">登录</button>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { atob } from '../../utils'
 import { genTestUserSig } from '../../../static/utils/sdk'
 import { initTimInstance } from '../../../static/utils/tim'
 import { registerEvents } from '../../main'
@@ -23,7 +25,8 @@ export default {
       appid: '1400294749',
       secret: '29e433950484389c3050ede42055dce934c0a335a87494495008794d740b8e48',
       uin: '410155683',
-      loading: false
+      loading: false,
+      invitedGroup: ''
     }
   },
   computed: {
@@ -81,6 +84,22 @@ export default {
         this.loading = false
         this.$store.commit('showToast', { title: '登录失败：参数不合法' })
       }
+    },
+    scanCode () {
+      wx.scanCode({
+        success: ({ result }) => {
+          try {
+            const [sig, group] = result.split('/')
+            this.invitedGroup = group
+            ;[this.appid, this.secret] = atob(sig).split('/').map((value, index) => {
+              return index === 0 ? value : value.split('').reverse().join('')
+            })
+          } catch (e) {
+            // 非法的参数，ignore
+            console.log(e)
+          }
+        }
+      })
     }
   }
 }
@@ -111,10 +130,10 @@ export default {
   background-color rgb(244, 244, 245)
   color rgb(144, 147, 153)
   font-size 16px
-  &::before
-    width 20px
-    height 20px
-    margin 0 6px 2px 0
+  //&::before
+  //  width 20px
+  //  height 20px
+  //  margin 0 6px 2px 0
 .clicked
   background-color rgb(130, 132, 138)
   color white
