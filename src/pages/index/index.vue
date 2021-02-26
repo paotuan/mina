@@ -50,7 +50,7 @@
               <div v-if="item.lastMessage.fromAccount === '@TIM#SYSTEM'">{{item.lastMessage.messageForShow}}</div>
               <div v-else>
                 <span class="remind" style="color: red"  v-if="item.groupAtInfoList.length > 0">{{item.messageAt_Text}}</span>
-                {{item.lastMessage.fromAccount}}：{{item.lastMessage.messageForShow}}
+                {{item.lastMessage.messageForShow}}
               </div>
             </div>
             <div class="content" v-else>
