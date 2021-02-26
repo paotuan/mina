@@ -2,7 +2,7 @@ const groupModules = {
   state: {
     groupList: [],
     currentGroupMemberList: [],
-    count: 15,
+    count: 30,
     isLoading: false
   },
   getters: {
@@ -13,7 +13,8 @@ const groupModules = {
       state.groupList = groupList
     },
     updateCurrentGroupMemberList (state, groupMemberList) {
-      state.currentGroupMemberList = [...state.currentGroupMemberList, ...groupMemberList]
+      // 体验版群人数少，不做分页逻辑了，与网页版保持一致
+      state.currentGroupMemberList = groupMemberList // [...state.currentGroupMemberList, ...groupMemberList]
     },
     resetGroup (state) {
       state.groupList = []

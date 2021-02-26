@@ -77,7 +77,7 @@ export default {
   computed: {
     ...mapState({
       groupProfile: state => state.conversation.currentConversation.groupProfile,
-      memberList: state => state.group.currentGroupMemberList.slice(0, 12)
+      memberList: state => state.group.currentGroupMemberList
     }),
     // 好友工作群才能添加群成员
     // addMemberButtonVisible () {
