@@ -20,9 +20,9 @@
     </div>
     <div class="table">
       <div class="row header">
-        <div class="col1">属性</div><div>%</div><div>半值</div><div>1/5值</div>
+        <div class="col1">属性</div><div @click="setSort('prop')">%{{sortProps}}</div><div>半值</div><div>1/5值</div>
       </div>
-      <div v-for="(prop, index) in props" :key="prop.name" class="row" :class="{ bg: index % 2 === 1 }">
+      <div v-for="(prop, index) in filterProps" :key="prop.name" class="row" :class="{ bg: index % 2 === 1 }">
         <div class="col1">{{ prop.name }}</div><div>{{ prop.value }}</div>
         <div>{{ prop.half }}</div><div>{{ prop.extreme }}</div>
       </div>
@@ -32,9 +32,9 @@
     </div>
     <div class="table">
       <div class="row header">
-        <div class="col1">技能</div><div>%</div><div>半值</div><div>1/5值</div>
+        <div class="col1">技能</div><div @click="setSort('skill')">%{{sortSkills}}</div><div>半值</div><div>1/5值</div>
       </div>
-      <div v-for="(prop, index2) in skills" :key="prop.name" class="row" :class="{ bg: index2 % 2 === 1 }">
+      <div v-for="(prop, index2) in filterSkills" :key="prop.name" class="row" :class="{ bg: index2 % 2 === 1 }">
         <div class="col1">{{ prop.name }}</div><div>{{ prop.value }}</div>
         <div>{{ prop.half }}</div><div>{{ prop.extreme }}</div>
       </div>
@@ -48,7 +48,9 @@ export default {
   data () {
     return {
       groupID: '',
-      userID: ''
+      userID: '',
+      sortProps: '',
+      sortSkills: ''
     }
   },
   computed: {
@@ -67,6 +69,16 @@ export default {
             value: this.card.skills[name],
             half: Math.floor(this.card.skills[name] / 2),
             extreme: Math.floor(this.card.skills[name] / 5) }))
+      },
+      filterProps: function () {
+        const filtered = this.props.filter(x => true) // 创建一个副本
+        if (!this.sortProps) return filtered
+        return filtered.sort((a, b) => this.sortProps === '+' ? a.value - b.value : b.value - a.value)
+      },
+      filterSkills: function () {
+        const filtered = this.skills.filter(x => true) // 创建一个副本
+        if (!this.sortSkills) return filtered
+        return filtered.sort((a, b) => this.sortSkills === '+' ? a.value - b.value : b.value - a.value)
       }
     })
   },
@@ -75,7 +87,18 @@ export default {
     this.userID = user
   },
   methods: {
-
+    setSort (table) {
+      if (table === 'prop') {
+        this.sortProps = this.nextSortMode(this.sortProps)
+      } else {
+        this.sortSkills = this.nextSortMode(this.sortSkills)
+      }
+    },
+    nextSortMode (current) {
+      if (current === '') return '+'
+      if (current === '+') return '-'
+      return ''
+    }
   }
 }
 </script>
