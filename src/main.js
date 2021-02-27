@@ -129,6 +129,7 @@ function messageReceived (event) {
     }
   }
   store.dispatch('onMessageEvent', event)
+  store.dispatch('handleKPNote', event.data) // 过滤 kp 指令
 }
 
 function convListUpdate (event) {

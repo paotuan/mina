@@ -189,6 +189,8 @@ const conversationModules = {
               break
             case wx.TIM.TYPES.CONV_GROUP:
               name = conversation.groupProfile.name || conversation.groupProfile.groupID
+              // 如果是一个群，则初始化群的游戏信息
+              context.dispatch('initGame', conversation.groupProfile.groupID)
               break
             default:
               name = '系统通知'

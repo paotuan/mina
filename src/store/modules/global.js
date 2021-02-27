@@ -58,6 +58,7 @@ const globalModules = {
       context.commit('resetUser')
       context.commit('resetCurrentConversation')
       context.commit('resetAllConversation')
+      context.commit('reset') // now for game module
     }
   }
 }
