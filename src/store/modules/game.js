@@ -21,13 +21,19 @@ const _ = (groupId) => {
 }
 
 const save = (key, groupId, content) => {
-  // localStorage.setItem(`paotuan${key}-${groupId}`, JSON.stringify(content))
+  wx.setStorage({
+    key: `paotuan${key}-${groupId}`,
+    data: JSON.stringify(content)
+  })
 }
 
 const getInitialSavedContent = (key, groupId) => {
-  // const saved = localStorage.getItem(`paotuan${key}-${groupId}`)
-  // return saved ? JSON.parse(saved) : []
-  return []
+  try {
+    const saved = wx.getStorageSync(`paotuan${key}-${groupId}`)
+    return saved ? JSON.parse(saved) : []
+  } catch (e) {
+    return []
+  }
 }
 
 const game = {
