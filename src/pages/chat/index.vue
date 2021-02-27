@@ -195,20 +195,28 @@
               图片
             </div>
           </div>
-          <div class="block" @click="video">
-            <div class="image">
-              <image src="/static/images/video-file.png" class="icon"/>
-            </div>
-            <div class="name">
-              视频
-            </div>
-          </div>
+<!--          <div class="block" @click="video">-->
+<!--            <div class="image">-->
+<!--              <image src="/static/images/video-file.png" class="icon"/>-->
+<!--            </div>-->
+<!--            <div class="name">-->
+<!--              视频-->
+<!--            </div>-->
+<!--          </div>-->
           <div v-if="groupProfile" class="block" @click="toKPNote">
             <div class="image">
               <image src="/static/images/custom.png" class="icon"/>
             </div>
             <div class="name">
               重要笔记
+            </div>
+          </div>
+          <div v-if="myGameCard" class="block" @click="toSelfGameCard">
+            <div class="image">
+              <image src="/static/images/rating.png" class="icon"/>
+            </div>
+            <div class="name">
+              我的人物卡
             </div>
           </div>
         </div>
@@ -233,8 +241,8 @@
       </div>
     </div>
     <div class="float-button-list">
-<!--      <img src="/static/images/camera.png" class="video-icon" v-if="currentConversation.type === 'C2C'" @click="call(2)">-->
       <img src="/static/images/conversation-profile.png" @click="toDetail">
+      <img src="/static/images/rating.png" class="video-icon" v-if="myGameCard" @click="toSelfGameCard">
     </div>
   </div>
   </div>
@@ -422,8 +430,9 @@ export default {
       currentConversation: state => state.conversation.currentConversation,
       myInfo: state => state.user.myInfo,
       sysInfo: state => state.global.systemInfo,
-      currentGroupMemberList: state => {
-        return state.group.currentGroupMemberList
+      currentGroupMemberList: state => state.group.currentGroupMemberList,
+      myGameCard: function (state) {
+        return this.groupProfile ? state.game.list[this.groupProfile.groupID].cards['o' + state.user.myInfo.userID] : null
       }
     }),
     ...mapGetters(['isIphoneX'])
@@ -915,6 +924,13 @@ export default {
     toKPNote () {
       const conversationID = this.currentConversation.conversationID
       wx.navigateTo({ url: `../game-note/main?id=${conversationID}` })
+      this.handleClose()
+    },
+    // 去人物卡页面
+    toSelfGameCard () {
+      const conversationID = this.currentConversation.conversationID
+      wx.navigateTo({ url: `../game-card/main?id=${conversationID}&user=${this.myInfo.userID}` })
+      this.handleClose()
     }
   },
   watch: {
@@ -1313,6 +1329,7 @@ li
   top 12px
   right 12px
   image
+    display block
     width 20px
     height 20px
     padding 7px
@@ -1320,7 +1337,7 @@ li
     background-color $background
     border-radius 50%
   .video-icon
-    margin-right 6px
+    margin-top 10px
 .re-edit
   color $primary
   line-height 30px

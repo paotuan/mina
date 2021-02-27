@@ -14,7 +14,8 @@
     "pages/profile/main",
     "pages/update-profile/main",
     "pages/selected-members/main",
-    "pages/game-note/main"
+    "pages/game-note/main",
+    "pages/game-card/main"
   ],
   "window": {
     "backgroundColor": "#ededed",

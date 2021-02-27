@@ -15,6 +15,7 @@
             </div>
           </div>
           <div class="information">
+            <div class="card" v-if="game.cards['o' + member.userID]" @click.stop="toCard(member)">人物卡</div>
             <div class="delete" v-if="(isAdminOrOwner && member.role !== 'Owner')" @click.stop="kick(member)">删除</div>
           </div>
         </div>
@@ -77,7 +78,8 @@ export default {
   computed: {
     ...mapState({
       groupProfile: state => state.conversation.currentConversation.groupProfile,
-      memberList: state => state.group.currentGroupMemberList
+      memberList: state => state.group.currentGroupMemberList,
+      game: function (state) { return state.game.list[this.groupProfile.groupID] }
     }),
     // 好友工作群才能添加群成员
     // addMemberButtonVisible () {
@@ -128,6 +130,9 @@ export default {
     },
     toUserProfile (member) {
       wx.navigateTo({ url: `../user-profile/main?userID=${member.userID}` })
+    },
+    toCard (member) {
+      wx.navigateTo({ url: `../game-card/main?id=${this.groupProfile.groupID}&user=${member.userID}` })
     },
     handleQuit () {
       wx.showModal({
@@ -254,7 +259,13 @@ export default {
 //  border-bottom 1px solid $light-background
 .cell-value
   color $dark-background !important
+.information
+  display flex
+.card
+  color $primary
+  font-size 14px
 .delete
   color $danger
   font-size 14px
+  margin-left 10px
 </style>
