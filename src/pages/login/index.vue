@@ -8,8 +8,10 @@
       <input type="password" class="input" v-model="secret" placeholder="secret" />
       <input class="input" v-model="uin" placeholder="QQ" />
     </div>
-    <button class="login-button" @click="scanCode">扫描二维码</button>
-    <button hover-class="clicked" :loading="loading" class="login-button" @click="login">登录</button>
+    <div class="login-btn-wrapper">
+      <button class="login-button" @click="scanCode">扫描二维码</button>
+      <button hover-class="clicked" :loading="loading" class="login-button" @click="login">登录</button>
+    </div>
   </div>
 </template>
 
@@ -104,11 +106,17 @@ export default {
   font-size 16px
   border-bottom 1px solid $border-base
   margin-bottom 16px
-.login-button
+.login-btn-wrapper
   width 80vw
+  display flex
+  justify-content space-between
+  margin 0 auto
+.login-button
+  width 38vw
   background-color rgb(244, 244, 245)
   color rgb(144, 147, 153)
   font-size 16px
+  margin 0
 .clicked
   background-color rgb(130, 132, 138)
   color white
