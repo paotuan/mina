@@ -199,6 +199,14 @@
               视频
             </div>
           </div>
+          <div v-if="groupProfile" class="block" @click="toKPNote">
+            <div class="image">
+              <image src="/static/images/custom.png" class="icon"/>
+            </div>
+            <div class="name">
+              重要笔记
+            </div>
+          </div>
         </div>
         <div class="images">
 <!--          <div class="block" @click="call(1)">-->
@@ -875,56 +883,6 @@ export default {
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min)) + min
     },
-    // call (type) {
-    //   const currentConversationType = this.$store.getters.currentConversationType
-    //   this.action = 'call'
-    //   this.userIDList = []
-    //   this.callType = type
-    //   if (currentConversationType === 'GROUP') {
-    //     this.action = 'groupCall'
-    //     wx.navigateTo({ url: '/pages/selected-members/main?fr=calling' })
-    //     // this.selectUserList() // 测试用
-    //     return
-    //   }
-    //   this.sendCalling(currentConversationType)
-    // },
-    // selectUserList () {
-    //   // this.userIDList = ['aallenguo', '26825']
-    //   this.sendCalling(this.$store.getters.currentConversationType)
-    // },
-    // groupCall () {
-    //   this.userIDList = [...this.selectedMember]
-    //   this.sendCalling(this.$store.getters.currentConversationType)
-    //   this.$store.commit('updateSelectedMember', [])
-    // },
-    // async sendCalling (conversationType) {
-    //   let isFromGroup = false
-    //   let userIDList = [this.myInfo.userID, this.$store.getters.toAccount]
-    //   if (conversationType === 'GROUP') {
-    //     isFromGroup = true
-    //     userIDList = [...this.userIDList]
-    //   }
-    //   const avatarList = await getUserProfile(userIDList)
-    //   // console.warn('avatarList--->', avatarList)
-    //   this.$store.commit('setCalling', true)
-    //   this.$store.commit('setCallData', {
-    //     isFromGroup: isFromGroup,
-    //     action: this.action,
-    //     sponsor: this.myInfo.userID,
-    //     to: this.$store.getters.toAccount,
-    //     userIDList: this.userIDList,
-    //     avatarList: avatarList,
-    //     inviteData: {
-    //       callType: this.callType
-    //     }
-    //   })
-    //   wx.switchTab({ url: '/pages/index/main' })
-    //   this.handleClose()
-    // },
-    handleEmojiShow () {
-      this.emojiShow = true
-    },
-    // 长按消息触发是否撤回
     handleMessage (message) {
       if (message.from === this.myInfo.userID) {
         const revokeTimeout = 2 * 60 * 1000
@@ -948,6 +906,11 @@ export default {
     // 撤回后时间限制内，重新编辑
     reEdit (message) {
       this.messageContent = message.payload.text
+    },
+    // 去重要笔记页面
+    toKPNote () {
+      const conversationID = this.currentConversation.conversationID
+      wx.navigateTo({ url: `../game-note/main?id=${conversationID}` })
     }
   },
   watch: {

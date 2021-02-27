@@ -13,7 +13,8 @@
     "pages/blacklist/main",
     "pages/profile/main",
     "pages/update-profile/main",
-    "pages/selected-members/main"
+    "pages/selected-members/main",
+    "pages/game-note/main"
   ],
   "window": {
     "backgroundColor": "#ededed",

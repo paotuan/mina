@@ -8,7 +8,7 @@ const gamePrototype = {
   // logs: [], // id\from\nick\time\content 不记录全部的 tim msg 属性
   bgm: {}, // platform\type\id 平台、类型（单曲、专辑）、歌曲 id
   notes: [], // id\type\payload 主持人笔记
-  noteUnread: false, // 是否有未读的笔记
+  // noteUnread: false, // 是否有未读的笔记
   cards: {} // 人物卡。 userID => 人物卡信息
   // openedCards: [], // 当前打开的人物卡 tab [群员ID]
 }
@@ -157,7 +157,7 @@ const game = {
           // context.dispatch('handleNoteUnread', msg.to)
         }
       })
-    },
+    }
     // handleNoteUnread (context, groupId) {
     //   // 为 note 增加红点，如果用户当前停留在 note tab 则不增加
     //   if (_(groupId).currentTab !== 'note') {
