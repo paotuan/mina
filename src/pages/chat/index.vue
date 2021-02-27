@@ -38,6 +38,10 @@
             </span>
           </div>
         </div>
+<!--        自定义消息，目前只有长得像系统消息的，后面有其他的消息就要分类讨论了-->
+        <div class="notice" v-if="message.type === 'TIMCustomElem'" >
+          <div class="content">{{ message.payload.description }}</div>
+        </div>
 <!--        撤回的消息-->
         <div v-else-if="message.isRevoked" :key="message.ID">
           <div class="notice">
@@ -87,9 +91,9 @@
                   <div>{{message.payload.fileName}}</div>
                 </div>
               </div>
-              <div class="message" v-else-if="message.type === 'TIMCustomElem'">
-                <div class="custom-elem">自定义消息</div>
-              </div>
+<!--              <div class="message" v-else-if="message.type === 'TIMCustomElem'">-->
+<!--                <div class="custom-elem">{{ message.payload.description }}</div>-->
+<!--              </div>-->
               <div class="message" v-else-if="message.type === 'TIMSoundElem'" :url="message.payload.url">
                 <div class="box" @click="openAudio(message.payload)">
                   <image src="/static/images/audio-play.png" style="height:22px;width:22px"/>
