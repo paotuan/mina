@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { queryString } from './utils'
 import TYPES from './utils/types'
+import { registerListeners } from '../static/utils/tim'
 
 wx.store = store
 wx.TIM = TIM
@@ -28,20 +29,23 @@ wx.onAppRoute((res) => {
   }
 })
 // 注册监听事件
-export function registerEvents (tim) {
-  tim.on(TIM.EVENT.SDK_READY, onReadyStateUpdate, this)
-  tim.on(TIM.EVENT.SDK_NOT_READY, onReadyStateUpdate, this)
-
-  tim.on(TIM.EVENT.KICKED_OUT, kickOut, this)
-  tim.on(TIM.EVENT.ERROR, onError, this)
-
-  tim.on(TIM.EVENT.MESSAGE_RECEIVED, messageReceived, this)
-  tim.on(TIM.EVENT.CONVERSATION_LIST_UPDATED, convListUpdate, this)
-  tim.on(TIM.EVENT.GROUP_LIST_UPDATED, groupListUpdate, this)
-  tim.on(TIM.EVENT.BLACKLIST_UPDATED, blackListUpdate, this)
-  tim.on(TIM.EVENT.NET_STATE_CHANGE, netStateChange, this)
-  tim.on(TIM.EVENT.MESSAGE_READ_BY_PEER, onMessageReadByPeer, this)
+let invitedGroupTemp = null // 临时记录下要自动加入的群
+export function registerEvents (tim, invitedGroup) {
+  invitedGroupTemp = invitedGroup
+  registerListeners(tim, {
+    [TIM.EVENT.SDK_READY]: onReadyStateUpdate,
+    [TIM.EVENT.SDK_NOT_READY]: onReadyStateUpdate,
+    [TIM.EVENT.KICKED_OUT]: kickOut,
+    [TIM.EVENT.ERROR]: onError,
+    [TIM.EVENT.MESSAGE_RECEIVED]: messageReceived,
+    [TIM.EVENT.CONVERSATION_LIST_UPDATED]: convListUpdate,
+    [TIM.EVENT.GROUP_LIST_UPDATED]: groupListUpdate,
+    [TIM.EVENT.BLACKLIST_UPDATED]: blackListUpdate,
+    [TIM.EVENT.NET_STATE_CHANGE]: netStateChange,
+    [TIM.EVENT.MESSAGE_READ_BY_PEER]: onMessageReadByPeer
+  }, this)
 }
+
 function onReadyStateUpdate ({ name }) {
   const isSDKReady = (name === TIM.EVENT.SDK_READY)
   if (isSDKReady) {
@@ -54,6 +58,17 @@ function onReadyStateUpdate ({ name }) {
     wx.$app.getGroupList().then(res => {
       store.commit('updateGroupList', res.data.groupList)
     })
+    // 处理自动加群逻辑
+    if (invitedGroupTemp) {
+      wx.$app.joinGroup({ groupID: '@TGS#' + invitedGroupTemp })
+        .then(() => { // 重复入群也无所谓
+          store.commit('showToast', { title: '邀请入群成功' })
+        })
+        .catch(() => {
+          store.commit('showToast', { title: '邀请入群失败' })
+        })
+      invitedGroupTemp = null
+    }
   }
   store.commit('setSdkReady', isSDKReady)
 }
