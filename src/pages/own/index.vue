@@ -16,6 +16,7 @@
 <!--    </i-cell-group>-->
     <i-cell-group i-class="cell-group">
       <i-cell title="修改资料" is-link url="../profile/main"></i-cell>
+      <i-cell title="清除重要笔记、人物卡缓存" i-class="logout" @click="clearCache"></i-cell>
       <i-cell title="退出登录" i-class="logout" @click="logout"></i-cell>
     </i-cell-group>
   </div>
@@ -45,6 +46,24 @@ export default {
       wx.hideLoading()
       wx.reLaunch({
         url: '../login/main'
+      })
+    },
+    clearCache () {
+      const self = this
+      wx.getStorageInfo({
+        success (res) {
+          try {
+            res.keys.forEach(key => {
+              if (key.startsWith('paotuan')) {
+                wx.removeStorageSync(key)
+              }
+            })
+            self.$store.commit('showToast', { title: '清除成功' })
+          } catch (e) {
+            console.log(e)
+            self.$store.commit('showToast', { title: '清除失败' })
+          }
+        }
       })
     }
   }

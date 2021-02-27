@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="(note, index) in notes" :key="note.id" class="card">
       <div v-if="note.type === 'TIMTextElem'">{{ note.payload }}</div>
       <image v-else-if="note.type === 'TIMImageElem'" :src="note.payload"
@@ -35,7 +35,12 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.container
+  background-color $background
+  min-height 100vh
+  padding 5px 0
 .card
+  background-color $white
   border 1px solid $border
   border-radius 5px
   margin 10px
