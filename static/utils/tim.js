@@ -14,7 +14,7 @@ export function initTimInstance(appid, secret) {
   wx.$app = TIM.create({ SDKAppID: appid })
   wx.$app.setLogLevel(4)
   // 注册 cos
-  wx.$app.registerPlugin({ 'cos-js-sdk': COSSDK })
+  wx.$app.registerPlugin({ 'cos-wx-sdk': COSSDK })
 }
 
 export function registerListeners (tim, listenerMap, scope) {

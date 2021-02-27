@@ -831,28 +831,6 @@ export default {
         wx.$app.resendMessage(message)
       }
     },
-    // sendSurvey () {
-    //   if (this.customExtension) {
-    //     const message = wx.$app.createCustomMessage({
-    //       to: this.$store.getters.toAccount,
-    //       conversationType: this.$store.getters.currentConversationType,
-    //       payload: {
-    //         data: 'survey',
-    //         description: String(this.rate),
-    //         extension: this.customExtension
-    //       }
-    //     })
-    //     this.rate = 0
-    //     this.customExtension = ''
-    //     this.$store.commit('sendMessage', message)
-    //     wx.$app.sendMessage(message)
-    //     this.handleClose()
-    //   } else {
-    //     this.$store.commit('showToast', {
-    //       title: '建议不要为空哦！'
-    //     })
-    //   }
-    // },
     // 播放音频
     openAudio (audio) {
       let that = this
