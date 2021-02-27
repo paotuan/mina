@@ -159,14 +159,14 @@
       </div>
 <!--    emoji部分-->
       <div class="bottom-emoji" v-if="isEmojiOpen">
-        <div class="emoji-tab">
-          <div class="tabs">
-            <div class="single" @click="handleEmojiShow" :class="emojiShow ? 'choosed' : ''">
-              <image src="/static/images/smile.png" style="width:100%;height:100%"></image>
-            </div>
-          </div>
-        </div>
-        <div class="emojis" v-if="emojiShow">
+<!--        <div class="emoji-tab">-->
+<!--          <div class="tabs">-->
+<!--            <div class="single" @click="handleEmojiShow" :class="emojiShow ? 'choosed' : ''">-->
+<!--              <image src="/static/images/smile.png" style="width:100%;height:100%"></image>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="emojis">
           <div v-for="(emojiItem, index3) in emojiName" class="emoji" :key="emojiItem" @click="chooseEmoji(emojiItem)">
             <image :src="emojiUrl + emojiMap[emojiItem]" style="width:100%;height:100%"/>
           </div>
@@ -277,11 +277,11 @@ export default {
       canSend: true,
       startPoint: 0,
       title: '正在录音',
-      rateModal: false,
-      rate: 5,
+      // rateModal: false,
+      // rate: 5,
       isShow: false,
       faceUrl: 'https://webim-1252463788.file.myqcloud.com/assets/face-elem/',
-      emojiShow: true,
+      // emojiShow: true,
       revokeModal: false,
       revokeMessage: {},
       currentTime: 0,
