@@ -10,25 +10,27 @@
     </div>
     <div class="login-btn-wrapper">
       <button class="login-button" @click="scanCode">扫描二维码</button>
-      <button hover-class="clicked" :loading="loading" class="login-button" @click="login">登录</button>
+      <button hover-class="clicked" :loading="loading" class="login-button" @click="clickLogin">{{ loginText }}</button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { atob } from '../../utils'
+import { atob, btoa } from '../../utils'
 import { genTestUserSig } from '../../../static/utils/sdk'
 import { initTimInstance } from '../../../static/utils/tim'
 import { registerEvents } from '../../main'
 export default {
   data () {
     return {
-      appid: '1400294749',
-      secret: '29e433950484389c3050ede42055dce934c0a335a87494495008794d740b8e48',
-      uin: '410155683',
-      loading: false,
-      invitedGroup: ''
+      appid: '',
+      secret: '',
+      uin: '',
+      loading: true,
+      loginText: '登录',
+      invitedGroup: '',
+      from: ''
     }
   },
   computed: {
@@ -36,16 +38,25 @@ export default {
       myInfo: state => state.user.myInfo
     })
   },
+  onLoad ({ from }) {
+    this.from = from
+    console.log('from' + from)
+  },
   onUnload () {
     this.loading = false
     this.invitedGroup = ''
+    this.loginText = '登录'
   },
   methods: {
+    clickLogin () {
+      this.loading = true
+      this.loginText = '登录中'
+      this.login()
+    },
     login () {
       const numsdkappid = Number(this.appid)
-
-      // TODO 判断 uin 合法
-      if (this.secret && this.uin && numsdkappid > 0) {
+      const uinValid = /^[0-9]{5,15}$/.test(this.uin)
+      if (this.secret && uinValid && numsdkappid > 0) {
         // 1. 根据提供的 appid 初始化 tim 实例
         initTimInstance(numsdkappid, this.secret)
         // 2. 初始化实例以后，设置监听器
@@ -56,13 +67,17 @@ export default {
           userID: this.uin,
           userSig: userSig
         }).then(() => {
+          wx.setStorage({ key: 's', data: btoa(this.appid + '/' + this.secret.split('').reverse().join('')) })
+          wx.setStorage({ key: 'uin', data: this.uin })
           wx.switchTab({ url: '../index/main' })
         }).catch((e) => {
           this.loading = false
+          this.loginText = '登录'
           this.$store.commit('showToast', { title: '登录失败：' + e.message })
         })
       } else {
         this.loading = false
+        this.loginText = '登录'
         this.$store.commit('showToast', { title: '登录失败：参数不合法' })
       }
     },
@@ -81,6 +96,25 @@ export default {
           }
         }
       })
+    }
+  },
+  mounted () {
+    // 判断自动登录逻辑
+    try {
+      const sig = wx.getStorageSync('s')
+      this.uin = wx.getStorageSync('uin')
+      ;[this.appid, this.secret] = atob(sig).split('/').map((value, index) => {
+        return index === 0 ? value : value.split('').reverse().join('')
+      })
+      if (this.uin && sig && !this.from) { // 如果是被踢或是主动退出登录，就不要自动登录了
+        this.loginText = '自动登录中'
+        this.login()
+      } else {
+        this.loading = false
+      }
+    } catch (e) {
+      // ignore
+      this.loading = false
     }
   }
 }

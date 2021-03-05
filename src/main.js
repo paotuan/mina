@@ -82,7 +82,7 @@ function kickOut (event) {
   })
   setTimeout(() => {
     wx.reLaunch({
-      url: '../login/main'
+      url: '../login/main?from=kick'
     })
   }, 500)
 }

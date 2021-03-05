@@ -45,7 +45,7 @@ export default {
       wx.$app.logout()
       wx.hideLoading()
       wx.reLaunch({
-        url: '../login/main'
+        url: '../login/main?from=logout'
       })
     },
     clearCache () {
