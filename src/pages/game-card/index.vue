@@ -11,8 +11,10 @@
         <div>体力</div><div>理智</div><div>幸运</div><div>魔法</div>
       </div>
       <div class="row">
-        <div>{{ card.basic.hp }}</div><div>{{ card.basic.san }}</div>
-        <div>{{ card.basic.luck }}</div><div>{{ card.basic.mp }}</div>
+        <div>{{ card.basic.hp }}</div>
+        <div @click="onClickCell('理智')">{{ card.basic.san }}</div>
+        <div @click="onClickCell('幸运')">{{ card.basic.luck }}</div>
+        <div>{{ card.basic.mp }}</div>
       </div>
     </div>
     <div class="section-header">
@@ -23,8 +25,10 @@
         <div class="col1">属性</div><div @click="setSort('prop')">%{{sortProps}}</div><div>半值</div><div>1/5值</div>
       </div>
       <div v-for="(prop, index) in filterProps" :key="prop.name" class="row" :class="{ bg: index % 2 === 1 }">
-        <div class="col1">{{ prop.name }}</div><div>{{ prop.value }}</div>
-        <div>{{ prop.half }}</div><div>{{ prop.extreme }}</div>
+        <div class="col1" @click="copy(prop.name)">{{ prop.name }}</div>
+        <div @click="onClickCell(prop.name)">{{ prop.value }}</div>
+        <div @click="onClickCell(`困难${prop.name}`)">{{ prop.half }}</div>
+        <div @click="onClickCell(`极难${prop.name}`)">{{ prop.extreme }}</div>
       </div>
     </div>
     <div class="section-header">
@@ -35,8 +39,10 @@
         <div class="col1">技能</div><div @click="setSort('skill')">%{{sortSkills}}</div><div>半值</div><div>1/5值</div>
       </div>
       <div v-for="(prop, index2) in filterSkills" :key="prop.name" class="row" :class="{ bg: index2 % 2 === 1 }">
-        <div class="col1">{{ prop.name }}</div><div>{{ prop.value }}</div>
-        <div>{{ prop.half }}</div><div>{{ prop.extreme }}</div>
+        <div class="col1" @click="copy(prop.name)">{{ prop.name }}</div>
+        <div @click="onClickCell(prop.name)">{{ prop.value }}</div>
+        <div @click="onClickCell(`困难${prop.name}`)">{{ prop.half }}</div>
+        <div @click="onClickCell(`极难${prop.name}`)">{{ prop.extreme }}</div>
       </div>
     </div>
   </div>
@@ -98,6 +104,21 @@ export default {
       if (current === '') return '+'
       if (current === '+') return '-'
       return ''
+    },
+    onClickCell (text) {
+      const message = wx.$app.createTextMessage({
+        to: this.groupID,
+        conversationType: this.TIM.TYPES.CONV_GROUP,
+        payload: { text: `.d% ${text}` }
+      })
+      let index = this.$store.state.conversation.currentMessageList.length
+      this.$store.commit('sendMessage', message)
+      wx.$app.sendMessage(message).catch(() => {
+        this.$store.commit('changeMessageStatus', index)
+      })
+    },
+    copy (text) {
+      wx.setClipboardData({ data: text })
     }
   }
 }
