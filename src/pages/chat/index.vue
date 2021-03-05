@@ -163,13 +163,6 @@
       </div>
 <!--    emoji部分-->
       <div class="bottom-emoji" v-if="isEmojiOpen">
-<!--        <div class="emoji-tab">-->
-<!--          <div class="tabs">-->
-<!--            <div class="single" @click="handleEmojiShow" :class="emojiShow ? 'choosed' : ''">-->
-<!--              <image src="/static/images/smile.png" style="width:100%;height:100%"></image>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
         <div class="emojis">
           <div v-for="(emojiItem, index3) in emojiName" class="emoji" :key="emojiItem" @click="chooseEmoji(emojiItem)">
             <image :src="emojiUrl + emojiMap[emojiItem]" style="width:100%;height:100%"/>
@@ -219,24 +212,6 @@
               我的人物卡
             </div>
           </div>
-        </div>
-        <div class="images">
-<!--          <div class="block" @click="call(1)">-->
-<!--            <div class="image">-->
-<!--              <image src="/static/images/voice-call.png" class="icon"/>-->
-<!--            </div>-->
-<!--            <div class="name">-->
-<!--              音频通话-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="block" @click="call(2)">-->
-<!--            <div class="image">-->
-<!--              <image src="/static/images/video.png" class="icon"/>-->
-<!--            </div>-->
-<!--            <div class="name">-->
-<!--              视频通话-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
@@ -891,11 +866,6 @@ export default {
         }
       })
     },
-    getRandomInt (min, max) {
-      min = Math.ceil(min)
-      max = Math.floor(max)
-      return Math.floor(Math.random() * (max - min)) + min
-    },
     handleMessage (message) {
       if (message.from === this.myInfo.userID) {
         const revokeTimeout = 2 * 60 * 1000
@@ -935,13 +905,6 @@ export default {
   },
   watch: {
     selectedMember (newVal) {
-      // if (newVal.length > 0 && this.action === 'groupCall') {
-      //   // 延时处理避免switchTab时在某些手机上报错：fail no page
-      //   setTimeout(() => {
-      //     this.groupCall()
-      //   }, 500)
-      //   return
-      // }
       let atList = []
       if (this.listType === 'groupAt') {
         newVal.forEach((userId) => {
@@ -1057,27 +1020,6 @@ export default {
       width 20vw
       padding 10px
       box-sizing border-box
-
-.emoji-tab
-  box-sizing border-box
-  border-bottom 1px solid $border-base
-  .tabs
-    display flex
-    height 29px
-    flex-direction row
-    padding-left 10px
-    box-sizing border-box
-    .single
-      display flex
-      margin-top 2px
-      width 26px
-      height 26px
-      padding 2px
-      border-radius 6px
-      box-sizing border-box
-      margin-right 8px
-    .choosed
-      background-color rgba(255,255,255,0.7)
 .bottom-image
   box-sizing border-box
   .images
@@ -1222,32 +1164,6 @@ li
         background-color $primary-10
         border 1px solid $primary-30
         border-radius 8px 2px 8px 8px
-.survey
-  padding 20px
-  background-color white
-  .title
-    font-size 16px
-    font-weight 600
-  .rate
-    display flex
-    flex-direction flex-start
-    align-content center
-    .star
-      width 30px
-      height 30px
-    .rating
-      font-weight 600
-      color $regular
-      line-height 30px
-      padding-left 10px
-  .suggestion
-    padding-top 10px
-    font-size 14px
-    color $black
-    font-weight 500
-  .description
-    font-size 18px
-    color $black
 .video
   max-height 200px
   max-width 50vw

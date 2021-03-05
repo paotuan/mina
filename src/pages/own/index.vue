@@ -7,13 +7,6 @@
         <div class="user-id">{{myInfo.userID}}</div>
       </div>
     </div>
-<!--    <i-cell-group i-class="cell-group">-->
-<!--      <i-cell title="个性签名">-->
-<!--        <div slot="footer" class="signature">-->
-<!--          {{myInfo.selfSignature || '暂无'}}-->
-<!--        </div>-->
-<!--      </i-cell>-->
-<!--    </i-cell-group>-->
     <i-cell-group i-class="cell-group">
       <i-cell title="修改资料" is-link url="../profile/main"></i-cell>
       <i-cell title="清除重要笔记、人物卡缓存" i-class="logout" @click="clearCache"></i-cell>
@@ -75,12 +68,6 @@ export default {
   margin-top 10px
 .logout
   color $danger
-.signature
-  overflow hidden
-  text-overflow ellipsis
-  white-space nowrap
-  max-width 50vw
-  color $secondary
 .container
   height 100vh
   background-color $background

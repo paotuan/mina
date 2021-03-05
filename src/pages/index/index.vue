@@ -109,8 +109,6 @@ export default {
     ...mapState({
       allConversation: state => state.conversation.allConversation,
       isSdkReady: state => state.global.isSdkReady,
-      // isCalling: state => state.global.isCalling,
-      // initTRTCCalling: state => state.global.initTRTCCalling,
       currentPage: state => state.global.currentPage
     }),
     ...mapGetters(['totalUnreadCount', 'myInfo'])
@@ -191,13 +189,8 @@ export default {
       wx.navigateTo({url})
     },
     updatePageInfo () {
-      // if (flag) {
-      //   wx.setNavigationBarTitle({title: ''})
-      //   wx.hideTabBar()
-      // } else {
       wx.setNavigationBarTitle({title: '消息'})
       wx.showTabBar()
-      // }
     }
   },
   onLoad () {
@@ -223,16 +216,6 @@ export default {
         this.messageAtMeText(newVal)
       }
     }
-    // isCalling (newVal) {
-    //   // 当接收端在index页时通过监听isCalling变化，控制UI和tabBar
-    //   if (this.currentPage === '/pages/index/main') {
-    //     if (newVal) {
-    //       this.hideChatContainer()
-    //       this.$refs.callingDom.handleInvited()
-    //     }
-    //     this.updatePageInfo(newVal)
-    //   }
-    // }
   }
 }
 </script>

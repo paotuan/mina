@@ -33,7 +33,6 @@ export default {
       muteModal: false,
       member: {},
       muteTime: undefined,
-      current: Date.now(),
       intervalID: '',
       selectedList: [],
       showAllItem: false
@@ -107,14 +106,6 @@ export default {
       // wx.navigateTo({url})
       wx.navigateBack({ delta: 1 })
     }
-  },
-  mounted () {
-    this.intervalID = setInterval(() => {
-      this.current = Date.now()
-    }, 1000)
-  },
-  destory () {
-    this.intervalID = ''
   }
 }
 </script>

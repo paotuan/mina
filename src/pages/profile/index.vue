@@ -6,11 +6,6 @@
         <i-avatar slot="footer" i-class="avatar" :src="myInfo.avatar" />
       </i-cell>
       <i-cell title="昵称" value-class="cell-value" :value="myInfo.nick || '暂无'" is-link url="../update-profile/main?type=user&key=nick"/>
-<!--      <i-cell title="个性签名" value-class="cell-value" is-link url="../update-profile/main?type=user&key=signature">-->
-<!--        <div slot="footer" class="signature">-->
-<!--          {{myInfo.selfSignature || '暂无'}}-->
-<!--        </div>-->
-<!--      </i-cell>-->
     </i-cell-group>
   </div>
 </template>
@@ -47,11 +42,6 @@ export default {
   width 30px
   height 30px
   border-radius 3px
-.signature
-  overflow hidden
-  text-overflow ellipsis
-  white-space nowrap
-  max-width 50vw
 .cell-value
   color $secondary !important
 </style>

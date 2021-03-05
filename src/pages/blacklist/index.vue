@@ -53,10 +53,6 @@ export default {
   padding 10px 0 4px 0
   background-color $background
   height 100vh
-.slot
-  padding 0 0 4px 10px
-  font-size 12px
-  color $secondary
 .none
   padding 10px
   display flex
