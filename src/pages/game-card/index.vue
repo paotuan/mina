@@ -19,6 +19,7 @@
     </div>
     <div class="section-header">
       <div class="title">基础属性</div>
+      <input class="input" v-model="propSearch" placeholder="搜索" />
     </div>
     <div class="table">
       <div class="row header">
@@ -33,6 +34,7 @@
     </div>
     <div class="section-header">
       <div class="title">技能表</div>
+      <input class="input" v-model="skillSearch" placeholder="搜索" />
     </div>
     <div class="table">
       <div class="row header">
@@ -49,6 +51,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { pinyin } from '../../utils'
 
 export default {
   data () {
@@ -56,7 +59,9 @@ export default {
       groupID: '',
       userID: '',
       sortProps: '',
-      sortSkills: ''
+      sortSkills: '',
+      propSearch: '',
+      skillSearch: ''
     }
   },
   computed: {
@@ -67,22 +72,24 @@ export default {
           ({ name,
             value: this.card.props[name],
             half: Math.floor(this.card.props[name] / 2),
-            extreme: Math.floor(this.card.props[name] / 5) }))
+            extreme: Math.floor(this.card.props[name] / 5),
+            pinyin: pinyin(name) }))
       },
       skills: function () {
         return Object.keys(this.card.skills).map(name =>
           ({ name,
             value: this.card.skills[name],
             half: Math.floor(this.card.skills[name] / 2),
-            extreme: Math.floor(this.card.skills[name] / 5) }))
+            extreme: Math.floor(this.card.skills[name] / 5),
+            pinyin: pinyin(name) }))
       },
       filterProps: function () {
-        const filtered = this.props.filter(x => true) // 创建一个副本
+        const filtered = this.props.filter(x => x.name.includes(this.propSearch) || x.pinyin.includes(this.propSearch))
         if (!this.sortProps) return filtered
         return filtered.sort((a, b) => this.sortProps === '+' ? a.value - b.value : b.value - a.value)
       },
       filterSkills: function () {
-        const filtered = this.skills.filter(x => true) // 创建一个副本
+        const filtered = this.skills.filter(x => x.name.includes(this.propSearch) || x.pinyin.includes(this.propSearch))
         if (!this.sortSkills) return filtered
         return filtered.sort((a, b) => this.sortSkills === '+' ? a.value - b.value : b.value - a.value)
       }
@@ -147,6 +154,8 @@ export default {
   background-color $background
 .section-header
   margin-top 20px
+  display flex
+  justify-content space-between
   .title
     font-size 20px
     font-weight bold
