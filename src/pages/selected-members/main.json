@@ -5,8 +5,6 @@
   "onReachBottomDistance": 50,
   "usingComponents": {
     "i-avatar": "../../../static/iview/avatar/index",
-    "i-row": "../../../static/iview/row/index",
-    "i-col": "../../../static/iview/col/index",
     "i-modal": "../../../static/iview/modal/index",
     "i-checkbox-group": "../../../static/iview/checkbox-group/index",
     "i-checkbox": "../../../static/iview/checkbox/index"
