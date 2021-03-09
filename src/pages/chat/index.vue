@@ -39,7 +39,7 @@
           </div>
         </div>
 <!--        自定义消息，目前只有长得像系统消息的，后面有其他的消息就要分类讨论了-->
-        <div class="notice" v-if="message.type === 'TIMCustomElem'" >
+        <div class="notice" v-else-if="message.type === 'TIMCustomElem'" >
           <div class="content">{{ message.payload.description }}</div>
         </div>
 <!--        撤回的消息-->
@@ -398,6 +398,7 @@ export default {
             list[i].payload.data = data.indexOf('@2x') > 0 ? data : `${data}@2x`
           }
         }
+        console.log(list)
         return list
       },
       selectedMember: state => state.conversation.selectedMember,
