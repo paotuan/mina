@@ -5,6 +5,9 @@
       <image v-else-if="note.type === 'TIMImageElem'" :src="note.payload"
              mode='widthFix' class="image-msg" @click="previewImage(note.payload)"/>
     </div>
+    <div v-if="notes.length === 0" class="empty-view">
+      暂无笔记
+    </div>
   </div>
 </template>
 <script>
@@ -47,4 +50,8 @@ export default {
   padding 10px
 .image-msg
   max-width 180px
+.empty-view
+  width 100%
+  text-align center
+  margin-top 20px
 </style>
