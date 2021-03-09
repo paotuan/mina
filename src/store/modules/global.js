@@ -17,7 +17,8 @@ const globalModules = {
     // rtcConfig: state => state.rtcConfig,
     currentPage: state => state.currentPage,
     // callData: state => state.callData,
-    isIphoneX: state => state.systemInfo ? state.systemInfo.model.startsWith('iPhone X') : false
+    // iPhoneX 或 iPhone 11 及以上，是全面屏
+    isIphoneX: state => state.systemInfo ? (state.systemInfo.model.startsWith('iPhone X') || state.systemInfo.model.startsWith('iPhone 1')) : false
   },
   mutations: {
     showToast (state, payload) {
