@@ -288,6 +288,8 @@ export default {
       background-color $danger
       border-radius 30px
       padding 2px 7px 3px
+      min-width 7.5px
+      text-align center
 .empty
   display flex
   align-content center
