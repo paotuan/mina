@@ -320,13 +320,16 @@ export default {
   onLoad (options) {
     this.set = decodeURIComponent(options.toAccount)
     // 设置header——聊天对象昵称或群名
-    this.height = this.sysInfo.windowHeight
+    this.height = this.$store.state.global.systemInfo.windowHeight // this.sysInfo.windowHeight 不知道为什么这个无效
     let query = wx.createSelectorQuery()
     let that = this
     wx.$app.on(this.TIM.EVENT.MESSAGE_RECEIVED, () => {
       query.select('#chat').boundingClientRect(function (res) {
         if (res.bottom - that.height < 150) {
-          that.scrollToBottom()
+          let interval = setInterval(() => {
+            that.scrollToBottom()
+            clearInterval(interval)
+          }, 600)
         }
       }).exec()
     })
@@ -369,7 +372,6 @@ export default {
     clearInterval(this.currentTimeID)
     wx.$app.setMessageRead({conversationID: this.$store.state.conversation.currentConversationID})
     this.isEmojiOpen = false
-    this.rateModal = false
     this.isMoreOpen = false
     this.messageContent = ''
     this.isShow = false
@@ -413,9 +415,6 @@ export default {
     ...mapGetters(['isIphoneX'])
   },
   methods: {
-    onChange (e) {
-      this.rate = e.mp.detail.index
-    },
     // 提示前往设置页
     toSettingPage (options) {
       wx.showModal({
@@ -536,33 +535,33 @@ export default {
         })
       }
     },
-    customModal () {
-      this.customModalVisible = !this.customModalVisible
-      this.handleClose()
-    },
-    sendCustomMessage () {
-      if (this.customData.length === 0 && this.customDescription.length === 0 && this.customExtension.length === 0) {
-        this.$store.commit('showToast', {
-          title: '不能为空'
-        })
-        return
-      }
-      const message = wx.$app.createCustomMessage({
-        to: this.$store.getters.toAccount,
-        conversationType: this.$store.getters.currentConversationType,
-        payload: {
-          data: this.customData,
-          description: this.customDescription,
-          extension: this.customExtension
-        }
-      })
-      this.$store.commit('sendMessage', message)
-      wx.$app.sendMessage(message)
-      this.customModal()
-      this.customData = ''
-      this.customDescription = ''
-      this.customExtension = ''
-    },
+    // customModal () {
+    //   this.customModalVisible = !this.customModalVisible
+    //   this.handleClose()
+    // },
+    // sendCustomMessage () {
+    //   if (this.customData.length === 0 && this.customDescription.length === 0 && this.customExtension.length === 0) {
+    //     this.$store.commit('showToast', {
+    //       title: '不能为空'
+    //     })
+    //     return
+    //   }
+    //   const message = wx.$app.createCustomMessage({
+    //     to: this.$store.getters.toAccount,
+    //     conversationType: this.$store.getters.currentConversationType,
+    //     payload: {
+    //       data: this.customData,
+    //       description: this.customDescription,
+    //       extension: this.customExtension
+    //     }
+    //   })
+    //   this.$store.commit('sendMessage', message)
+    //   wx.$app.sendMessage(message)
+    //   this.customModal()
+    //   this.customData = ''
+    //   this.customDescription = ''
+    //   this.customExtension = ''
+    // },
     // 失去焦点
     loseFocus () {
       this.handleClose()
