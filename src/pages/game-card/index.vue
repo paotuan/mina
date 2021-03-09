@@ -73,7 +73,7 @@ export default {
             value: this.card.props[name],
             half: Math.floor(this.card.props[name] / 2),
             extreme: Math.floor(this.card.props[name] / 5),
-            pinyin: pinyin(name) }))
+            pinyin: pinyin(name).toLowerCase() }))
       },
       skills: function () {
         return Object.keys(this.card.skills).map(name =>
@@ -81,7 +81,7 @@ export default {
             value: this.card.skills[name],
             half: Math.floor(this.card.skills[name] / 2),
             extreme: Math.floor(this.card.skills[name] / 5),
-            pinyin: pinyin(name) }))
+            pinyin: pinyin(name).toLowerCase() }))
       },
       filterProps: function () {
         const filtered = this.props.filter(x => x.name.includes(this.propSearch) || x.pinyin.includes(this.propSearch))
@@ -89,7 +89,7 @@ export default {
         return filtered.sort((a, b) => this.sortProps === '+' ? a.value - b.value : b.value - a.value)
       },
       filterSkills: function () {
-        const filtered = this.skills.filter(x => x.name.includes(this.propSearch) || x.pinyin.includes(this.propSearch))
+        const filtered = this.skills.filter(x => x.name.includes(this.skillSearch) || x.pinyin.includes(this.skillSearch))
         if (!this.sortSkills) return filtered
         return filtered.sort((a, b) => this.sortSkills === '+' ? a.value - b.value : b.value - a.value)
       }
@@ -123,6 +123,7 @@ export default {
       wx.$app.sendMessage(message).catch(() => {
         this.$store.commit('changeMessageStatus', index)
       })
+      wx.navigateBack()
     },
     copy (text) {
       wx.setClipboardData({ data: text })
@@ -159,4 +160,8 @@ export default {
   .title
     font-size 20px
     font-weight bold
+.input
+  padding 4px
+  border 1px solid $secondary
+  border-radius 5px
 </style>
