@@ -398,7 +398,6 @@ export default {
             list[i].payload.data = data.indexOf('@2x') > 0 ? data : `${data}@2x`
           }
         }
-        console.log(list)
         return list
       },
       selectedMember: state => state.conversation.selectedMember,
