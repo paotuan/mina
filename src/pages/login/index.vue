@@ -6,7 +6,7 @@
     <div class="input-wrapper">
       <input class="input" v-model="appid" placeholder="平台ID" />
       <input type="password" class="input" v-model="secret" placeholder="secret" />
-      <input class="input" v-model="uin" placeholder="QQ" />
+      <input class="input" v-model="uin" placeholder="UID" />
     </div>
     <div class="login-btn-wrapper">
       <button class="login-button" @click="scanCode">扫描二维码</button>

@@ -124,9 +124,9 @@
 <!--  输入框及选择框部分 -->
     <div class="bottom" :style="{ paddingBottom: isIphoneX ? safeBottom + 'px': '' }">
       <div class="bottom-div">
-        <div class="btn-left" @click="chooseRecord">
-          <icon :src="!isRecord ? '../../../static/images/audio.png' : '../../../static/images/record.png'" :size="28"/>
-        </div>
+<!--        <div class="btn-left" @click="chooseRecord">-->
+<!--          <icon :src="!isRecord ? '../../../static/images/audio.png' : '../../../static/images/record.png'" :size="28"/>-->
+<!--        </div>-->
         <div v-if="!isRecord" style="width: 100%">
           <input type="text"
                  class="input"
@@ -519,9 +519,11 @@ export default {
     },
     // 手指离开页面滑动
     handleTouchEnd () {
-      this.isRecording = false
       wx.hideLoading()
-      recorderManager.stop()
+      if (this.isRecording) {
+        this.isRecording = false
+        recorderManager.stop()
+      }
     },
     // 开始录音
     startRecording () {

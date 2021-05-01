@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <i-cell-group>
-      <i-cell title="QQ" :value="myInfo.userID" value-class="cell-value"></i-cell>
+      <i-cell title="UID" :value="myInfo.userID" value-class="cell-value"></i-cell>
       <i-cell title="头像">
         <i-avatar slot="footer" i-class="avatar" :src="myInfo.avatar" />
       </i-cell>
