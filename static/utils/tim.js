@@ -4,8 +4,8 @@ import TIM from './sdk'
 // let sdkappid = null
 // let sdksecret = null
 
-export function initTimInstance(appid, secret) {
-  if (wx.$app) return // 已经初始化过了
+export function initTimInstance (appid, secret) {
+  // if (wx.$app) return // 已经初始化过了
 
   // sdkappid = appid // 保存一下appid
   // sdksecret = secret
